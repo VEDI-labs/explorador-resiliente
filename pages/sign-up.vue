@@ -6,25 +6,43 @@
     "
   >
     <h1>
-      Registrar usuario
+      Regístrate gratis
     </h1>
+    <p>Ingresa tus datos para poder descrubir todo las constelaciones de Sonora-Resiliente</p>
     <form>
-      <label for="email">Correo electrónico:</label>
-      <input
-        id="email"
-        v-model="email"
-        name="email"
-        type="email"
-        :disabled="uiState === UI_STATES.LOADING"
-      >
-      <label>Contraseña:</label>
-      <input
-        id="password"
-        v-model="password"
-        name="password"
-        type="password"
-        :disabled="uiState === UI_STATES.LOADING"
-      >
+      <label>
+        <span>Correo electrónico</span>
+        <input
+          v-model="email"
+          class="form-input"
+          name="email"
+          placeholder="Ingresa tu correo electrónico"
+          type="email"
+          :disabled="uiState === UI_STATES.LOADING"
+        >
+      </label>
+      <label>
+        <span>Contraseña</span>
+        <input
+          v-model="password"
+          class="form-input"
+          name="password"
+          placeholder="Crea una contraseña"
+          type="password"
+          :disabled="uiState === UI_STATES.LOADING"
+        >
+      </label>
+      <label>
+        <span>Repetir contraseña</span>
+        <input
+          v-model="repeatPassword"
+          class="form-input"
+          name="repeatPassword"
+          placeholder="Vuelve a ingresar la contraseña"
+          type="password"
+          :disabled="uiState === UI_STATES.LOADING"
+        >
+      </label>
       <button
         type="button"
         :disabled="uiState === UI_STATES.LOADING"
@@ -70,6 +88,7 @@ export default {
     return {
       email: '',
       password: '',
+      repeatPassword: '',
       uiState: UI_STATES.BLANK,
       UI_STATES
     }
@@ -94,11 +113,14 @@ export default {
 </script>
 <style lang="postcss" scoped>
 button {
-  @apply bg-green-500;
+  @apply bg-accent-500;
   @apply text-white;
   @apply p-2;
-  @apply rounded-md;
+  @apply rounded-full;
   @apply flex justify-center;
+  @apply mt-4;
+  @apply shadow-md;
+  @apply border-2 border-white;
 
   & svg {
     @apply mr-2;
@@ -109,25 +131,18 @@ button {
     @apply outline-none;
   }
 
-  &:hover, &:focus {
-    @apply bg-green-700;
+  &:hover {
+    @apply bg-accent-300;
+  }
+
+  &:focus {
+    @apply bg-accent-900;
   }
 }
 
 h1 {
-  @apply text-3xl font-bold font-bold;
-  @apply mb-4;
-}
-
-input {
-  @apply border-2 border-green-200 mb-4 rounded-md w-full;
-  @apply p-2;
-
-  &:focus {
-    @apply bg-green-100;
-    @apply border-green-500;
-    @apply outline-none;
-  }
+  @apply text-3xl font-semibold;
+  @apply mb-2;
 }
 
 form {
@@ -136,7 +151,20 @@ form {
 }
 
 label {
-  @apply mb-1;
+  @apply block mb-4;
+
+  & input {
+    @apply mt-1 block w-full;
+  }
+
+  & span {
+    @apply font-bold text-gray-700;
+  }
+}
+
+p {
+  @apply text-base text-gray-700;
+  @apply mb-4;
 }
 
 .Card {

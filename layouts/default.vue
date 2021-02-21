@@ -6,7 +6,7 @@
 
 <style lang="postcss">
 body {
-  @apply bg-green-100 min-h-screen;
+  @apply bg-gray-50 min-h-screen;
   @apply flex justify-center items-center;
 
   & > div {

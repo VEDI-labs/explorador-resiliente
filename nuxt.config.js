@@ -65,5 +65,12 @@ export default {
       auth: true,
       firestore: true
     }
+  },
+
+  tailwindcss: {
+    configPath: '~/tailwind.config.js',
+    cssPath: '~/assets/css/tailwind.css',
+    purgeCSSInDev: true,
+    exposeConfig: true
   }
 }
