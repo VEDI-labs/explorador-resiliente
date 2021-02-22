@@ -9,10 +9,11 @@
       Regístrate gratis
     </h1>
     <p>Ingresa tus datos para poder descrubir todo las constelaciones de Sonora-Resiliente</p>
-    <validation-observer v-slot="{ handleSubmit }">
+    <validation-observer ref="form" v-slot="{ handleSubmit }">
       <form @submit.prevent="handleSubmit(signUp)">
         <validation-provider
           v-slot="{ errors }"
+          name="email"
           rules="required|email"
         >
           <div
@@ -132,10 +133,19 @@ export default {
           this.password
         )
         this.uiState = UI_STATES.IDEAL
-      } catch (e) {
-        console.error('Error')
-        console.error(e)
-        this.uiState = UI_STATES.ERROR
+      } catch (error) {
+        if (error.code === 'auth/email-already-in-use') {
+          this.$refs.form.setErrors({
+            email: ['El correo electrónico ya se encuentra en uso']
+          })
+        } else if (error.code === 'auth/weak-password') {
+          this.$refs.form.setErrors({
+            password: ['La contraseña debe tener al menos 6 caracteres']
+          })
+        } else {
+          this.uiState = UI_STATES.ERROR
+        }
+        this.uiState = UI_STATES.IDEAL
       }
     }
   }
