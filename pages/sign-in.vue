@@ -6,11 +6,10 @@
     "
   >
     <h1 class="Card-title">
-      Regístrate gratis
+      Iniciar sesión
     </h1>
-    <p>Ingresa tus datos para poder descrubir todo las constelaciones de Sonora-Resiliente</p>
     <validation-observer ref="form" v-slot="{ handleSubmit }">
-      <form class="Card-content" @submit.prevent="handleSubmit(signUp)">
+      <form class="Card-content" @submit.prevent="handleSubmit(signIn)">
         <validation-provider
           v-slot="{ errors }"
           name="email"
@@ -51,23 +50,6 @@
             <span>{{ errors[0] }}</span>
           </div>
         </validation-provider>
-        <validation-provider
-          v-slot="{ errors }"
-          vid="confirmation"
-          rules="required|password:@password"
-        >
-          <div class="InputContainer" :class="{ error: errors.length > 0 }">
-            <label>Repetir contraseña</label>
-            <input
-              v-model="passwordConfirmation"
-              class="form-input"
-              placeholder="Vuelve a ingresar la contraseña"
-              type="password"
-              :disabled="uiState === UI_STATES.LOADING"
-            >
-            <span>{{ errors[0] }}</span>
-          </div>
-        </validation-provider>
         <button
           class="SubmitButton"
           type="submit"
@@ -101,6 +83,7 @@
     </validation-observer>
   </div>
 </template>
+
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
@@ -120,30 +103,29 @@ export default {
     return {
       email: '',
       password: '',
-      passwordConfirmation: '',
       uiState: UI_STATES.BLANK,
       UI_STATES
     }
   },
   methods: {
-    async signUp () {
+    async signIn () {
       try {
         this.uiState = UI_STATES.LOADING
-        await this.$fire.auth.createUserWithEmailAndPassword(
+        await this.$fire.auth.signInWithEmailAndPassword(
           this.email,
           this.password
         )
         this.uiState = UI_STATES.IDEAL
         this.$router.push('/')
       } catch (error) {
-        if (error.code === 'auth/email-already-in-use') {
+        if (error.code === 'auth/wrong-password') {
           this.$refs.form.setErrors({
-            email: ['El correo electrónico ya se encuentra en uso']
+            password: ['La contraseña es inválida']
           })
           this.uiState = UI_STATES.IDEAL
-        } else if (error.code === 'auth/weak-password') {
+        } else if (error.code === 'auth/user-not-found') {
           this.$refs.form.setErrors({
-            password: ['La contraseña debe tener al menos 6 caracteres']
+            email: ['El correo electrónico no se encuentra registrado']
           })
           this.uiState = UI_STATES.IDEAL
         } else {

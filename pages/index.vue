@@ -5,30 +5,38 @@
       <h1 class="title">
         Explorador Resiliente
       </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
+      <div v-show="isAuthenticated">
+        <p>
+          Bienvenido {{ user.email }}
+        </p>
+        <button
+          @click="signOut"
         >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+          Cerrar sesión
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapGetters, mapState } from 'vuex'
+
+export default {
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'isAuthenticated'
+    }),
+    ...mapState({
+      user: state => state.user
+    })
+  },
+  methods: {
+    async signOut () {
+      await this.$fire.auth.signOut()
+    }
+  }
+}
 </script>
 
 <style scoped>
