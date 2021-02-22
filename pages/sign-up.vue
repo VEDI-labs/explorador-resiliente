@@ -9,73 +9,99 @@
       Regístrate gratis
     </h1>
     <p>Ingresa tus datos para poder descrubir todo las constelaciones de Sonora-Resiliente</p>
-    <form>
-      <label>
-        <span>Correo electrónico</span>
-        <input
-          v-model="email"
-          class="form-input"
-          name="email"
-          placeholder="Ingresa tu correo electrónico"
-          type="email"
-          :disabled="uiState === UI_STATES.LOADING"
+    <validation-observer v-slot="{ handleSubmit }">
+      <form @submit.prevent="handleSubmit(signUp)">
+        <validation-provider
+          v-slot="{ errors }"
+          rules="required|email"
         >
-      </label>
-      <label>
-        <span>Contraseña</span>
-        <input
-          v-model="password"
-          class="form-input"
+          <div
+            class="InputContainer"
+            :class="{ error: errors.length > 0 }"
+          >
+            <label>Correo electrónico</label>
+            <input
+              v-model="email"
+              class="form-input"
+              name="email"
+              placeholder="Ingresa tu correo electrónico"
+              type="email"
+              :disabled="uiState === UI_STATES.LOADING"
+            >
+            <span>{{ errors[0] }}</span>
+          </div>
+        </validation-provider>
+        <validation-provider
+          v-slot="{ errors }"
           name="password"
-          placeholder="Crea una contraseña"
-          type="password"
+          vid="password"
+          rules="required"
+        >
+          <div class="InputContainer" :class="{ error: errors.length > 0 }">
+            <label>Contraseña</label>
+            <input
+              ref="password"
+              v-model="password"
+              class="form-input"
+              placeholder="Crea una contraseña"
+              type="password"
+              :disabled="uiState === UI_STATES.LOADING"
+            >
+            <span>{{ errors[0] }}</span>
+          </div>
+        </validation-provider>
+        <validation-provider
+          v-slot="{ errors }"
+          vid="confirmation"
+          rules="required|password:@password"
+        >
+          <div class="InputContainer" :class="{ error: errors.length > 0 }">
+            <label>Repetir contraseña</label>
+            <input
+              v-model="passwordConfirmation"
+              class="form-input"
+              placeholder="Vuelve a ingresar la contraseña"
+              type="password"
+              :disabled="uiState === UI_STATES.LOADING"
+            >
+            <span>{{ errors[0] }}</span>
+          </div>
+        </validation-provider>
+        <button
+          type="submit"
           :disabled="uiState === UI_STATES.LOADING"
         >
-      </label>
-      <label>
-        <span>Repetir contraseña</span>
-        <input
-          v-model="repeatPassword"
-          class="form-input"
-          name="repeatPassword"
-          placeholder="Vuelve a ingresar la contraseña"
-          type="password"
-          :disabled="uiState === UI_STATES.LOADING"
-        >
-      </label>
-      <button
-        type="button"
-        :disabled="uiState === UI_STATES.LOADING"
-        @click.prevent="signUp"
-      >
-        <svg
-          v-if="uiState === UI_STATES.LOADING"
-          width="24"
-          height="24"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          />
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </svg>
-        Registrarse
-      </button>
-    </form>
+          <svg
+            v-if="uiState === UI_STATES.LOADING"
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            />
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+          Registrarse
+        </button>
+      </form>
+    </validation-observer>
   </div>
 </template>
 <script>
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
+
 const UI_STATES = {
   BLANK: 'BLANK_STATE',
   ERROR: 'ERROR_STATE',
@@ -84,11 +110,15 @@ const UI_STATES = {
 }
 
 export default {
+  components: {
+    ValidationObserver,
+    ValidationProvider
+  },
   data () {
     return {
       email: '',
       password: '',
-      repeatPassword: '',
+      passwordConfirmation: '',
       uiState: UI_STATES.BLANK,
       UI_STATES
     }
@@ -121,6 +151,7 @@ button {
   @apply mt-4;
   @apply shadow-md;
   @apply border-2 border-white;
+  @apply w-full;
 
   & svg {
     @apply mr-2;
@@ -150,15 +181,32 @@ form {
   @apply bg-white
 }
 
-label {
-  @apply block mb-4;
+.InputContainer {
+  @apply flex flex-col mb-4;
 
   & input {
-    @apply mt-1 block w-full;
+    @apply mb-1;
+  }
+
+  & label {
+    @apply mb-1;
+    @apply font-bold text-gray-700;
   }
 
   & span {
-    @apply font-bold text-gray-700;
+    @apply text-gray-300;
+  }
+
+  &.error input {
+    @apply border-error;
+  }
+
+  &.error label {
+    @apply text-error;
+  }
+
+  &.error span {
+    @apply text-error;
   }
 }
 

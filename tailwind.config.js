@@ -24,9 +24,10 @@ module.exports = {
         400: '#9CA4A5',
         300: '#B5BBBC',
         200: '#CED2D2',
-        100: '#ECEEEF',
+        100: '#E1E5E6',
         50: '#EEF7FE'
       },
+      error: '#F53019',
       white: '#FFFFFF'
     },
     customForms: theme => ({
@@ -34,6 +35,9 @@ module.exports = {
         input: {
           borderColor: theme('colors.gray.100'),
           outline: 'none',
+          '&.error': {
+            borderColor: theme('colors.error')
+          },
           '&:hover': {
             borderColor: theme('colors.primary.300'),
             boxShadow: 'none'
