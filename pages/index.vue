@@ -2,9 +2,26 @@
   <div class="container">
     <div>
       <Logo />
-      <h1 class="title">
+      <h1>
         Explorador Resiliente
       </h1>
+      <h2>
+        Explorador Resiliente
+      </h2>
+      <h3>
+        Explorador Resiliente
+      </h3>
+      <h4>
+        Explorador Resiliente
+      </h4>
+      <h5>
+        Explorador Resiliente
+      </h5>
+      <h6>
+        Explorador Resiliente
+      </h6>
+      <a href="#">Hola mundo</a>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore doloribus aut ad aspernatur dolores suscipit quam vel, consequuntur ut quasi aliquam omnis excepturi? Hic cupiditate, similique vel quasi sequi iure?</p>
       <div v-show="isAuthenticated">
         <p>
           Bienvenido {{ user.email }}

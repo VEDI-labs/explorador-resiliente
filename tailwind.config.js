@@ -50,6 +50,24 @@ module.exports = {
             borderColor: theme('colors.primary.300'),
             boxShadow: 'none'
           }
+        },
+        select: {
+          borderColor: theme('colors.gray.100'),
+          outline: 'none',
+          '&.error': {
+            borderColor: theme('colors.error')
+          },
+          '&:hover': {
+            borderColor: theme('colors.primary.300'),
+            boxShadow: 'none'
+          },
+          '&:active': {
+            borderColor: theme('colors.primary.300')
+          },
+          '&:focus': {
+            borderColor: theme('colors.primary.300'),
+            boxShadow: 'none'
+          }
         }
       }
     })

@@ -1,5 +1,5 @@
 import { extend } from 'vee-validate'
-import { email, required } from 'vee-validate/dist/rules'
+import { email, min, required } from 'vee-validate/dist/rules'
 
 extend('password', {
   params: ['target'],
@@ -12,6 +12,11 @@ extend('password', {
 extend('email', {
   ...email,
   message: 'El correo electrónico debe ser válido'
+})
+
+extend('min', {
+  ...min,
+  message: 'Deben ser al menos {length} caracteres'
 })
 
 extend('required', {

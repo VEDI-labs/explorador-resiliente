@@ -22,17 +22,131 @@ export default {
 </script>
 
 <style lang="postcss">
+a {
+  @apply text-base;
+  @apply text-primary-300;
+
+  &:hover {
+    @apply underline;
+  }
+}
+
 body {
-  @apply bg-gray-50 min-h-screen;
-  @apply flex justify-center items-center;
+  font-family: 'yaahowu';
+  @apply bg-gray-50;
+  @apply min-h-screen;
+  @apply flex;
+  @apply justify-center;
+  @apply items-center;
 
   & > div {
     @apply flex-1;
   }
 }
 
+button {
+  @apply bg-accent-500;
+  @apply border-2;
+  @apply border-gray-50;
+  @apply px-6;
+  @apply py-2;
+  @apply rounded-full;
+  @apply shadow-lg;
+  @apply text-gray-50;
+  @apply uppercase;
+
+  &.full {
+    @apply w-full;
+  }
+
+  &:disabled {
+    @apply cursor-not-allowed;
+    @apply opacity-50;
+  }
+
+  &:hover {
+    @apply bg-accent-300;
+  }
+
+  &:active, &:focus {
+    @apply bg-accent-900;
+    @apply outline-none;
+    @apply shadow-sm;
+  }
+}
+
+form {
+  @apply flex-col;
+  @apply flex;
+  @apply w-full;
+
+  & button[type="submit"] {
+    @apply self-end;
+  }
+
+  & span {
+    @apply text-gray-700;
+    @apply w-full;
+
+    &.error {
+      @apply text-error;
+    }
+  }
+
+  & > div {
+    @apply flex-col;
+    @apply flex;
+    @apply mb-4;
+  }
+}
+
+h1 {
+  @apply text-6xl;
+}
+
+h2 {
+  @apply text-5xl;
+}
+
+h3 {
+  @apply text-4xl;
+}
+
+h4 {
+  @apply text-3xl;
+}
+
+h5 {
+  @apply text-2xl;
+}
+
+h6 {
+  @apply text-xl;
+}
+
+input {
+  @apply mb-2;
+
+  &.error {
+    @apply border-error;
+    @apply text-error;
+  }
+}
+
+label {
+  @apply font-bold;
+  @apply mb-2;
+  @apply text-base;
+  @apply text-gray-700;
+
+  &.error {
+    @apply text-error;
+  }
+}
+
 p {
-  @apply text-base text-gray-700;
+  @apply text-base;
+  @apply text-gray-700;
   @apply mb-4;
 }
 
@@ -44,71 +158,17 @@ p {
   @apply px-8 py-12
 }
 
-.Card-title {
-  @apply text-3xl font-semibold;
-  @apply mb-2;
-}
-
-.Card-content {
-  @apply flex flex-col;
-  @apply bg-white;
-}
-
-.InputContainer {
-  @apply flex flex-col mb-4;
-
-  & input {
-    @apply mb-1;
-  }
-
-  & label {
-    @apply mb-1;
-    @apply font-bold text-gray-700;
-  }
-
-  & span {
-    @apply text-gray-300;
-  }
-
-  &.error input {
-    @apply border-error;
-  }
-
-  &.error label {
-    @apply text-error;
-  }
-
-  &.error span {
-    @apply text-error;
-  }
-}
-
-.SubmitButton {
-  @apply bg-accent-500;
-  @apply text-white;
-  @apply p-2;
-  @apply rounded-full;
-  @apply flex justify-center;
+.Card-actions {
+  @apply border-gray-100;
+  @apply border-t-2;
   @apply mt-4;
-  @apply shadow-md;
-  @apply border-2 border-white;
-  @apply w-full;
+  @apply pt-4;
+  @apply text-center;
+}
 
-  & svg {
-    @apply mr-2;
-    @apply animate-spin;
-  }
-
-  &:focus {
-    @apply outline-none;
-  }
-
-  &:hover {
-    @apply bg-accent-300;
-  }
-
-  &:focus {
-    @apply bg-accent-900;
-  }
+h1, h2, h3, h4, h5, h6 {
+  @apply text-gray-900;
+  @apply font-bold;
+  @apply mb-2;
 }
 </style>
