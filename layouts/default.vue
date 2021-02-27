@@ -59,6 +59,17 @@ button {
     @apply w-full;
   }
 
+  &.rounded {
+    @apply rounded-full w-16 h-16 flex items-center justify-center;
+  }
+
+  &.ghost {
+    @apply bg-transparent shadow-none;
+    &:hover {
+      @apply bg-transparent shadow-lg;
+    }
+  }
+
   &:disabled {
     @apply cursor-not-allowed;
     @apply opacity-50;
