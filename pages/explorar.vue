@@ -24,7 +24,7 @@
                     Icono
                   </i>
                   <p class="text-center">Registrate para obtener más beneficios</p>
-                  <a href="#" class="rounded-full py-3 px-6 unete-ahora">ÚNETE AHORA</a>
+                  <button class="bg-green-500 px-4 py-2 text-white">ÚNETE AHORA</button>
                 </div>
             </div>
         </div>
