@@ -1,174 +1,78 @@
 <template>
-  <div>
-    <Nuxt />
+  <div class="estilo-base flex">
+    <div class="h-screen w-screen grid gap-0 grid-rows-4 grid-cols-12  barra-navegacion ">
+      <div class="col-span-2 row-span-4 pr-8">
+        <div>
+          <div class="mt-20">
+            <BiocreativaLogo class="mx-auto" />
+          </div>
+          <div class="mt-10">
+            <div class="rounded-full py-3 px-6">
+              <a href="https://www.google.com" class="no-underline tm-2" style="color: #6b7779"><i class="mr-2">icono</i>Explorar</a>
+              <br>
+              <a href="https://www.google.com" class="no-underline mt-4" style="color: #6b7779"><i class="mr-2">icono</i>Estaciones</a>
+              <br>
+              <a href="https://www.google.com" class="no-underline mt-4" style="color: #6b7779"><i class="mr-2">icono</i>Comunidades</a>
+              <br>
+              <a href="https://www.google.com" class="no-underline mt-4" style="color: #6b7779"><i class="mr-2">icono</i>Artistas</a>
+            </div>
+          </div>
+          <div class="mt-48 ml-10 mr-8 px-2 pt-4 pb-8 rounded box-content w-48 shadow-2xl" style="background: #ffffff;">
+            <i>
+              Icono
+            </i>
+            <p class="text-center">
+              Registrate para obtener más beneficios
+            </p>
+            <button class="bg-green-500 px-4 py-2 text-white">
+              ÚNETE AHORA
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-8 row-span-4 rounded-l-lg contenido-fondo py-12 px-8">
+        <Nuxt />
+      </div>
+      <div class="col-span-2 row-span-4 bg-gray-50">
+        <p>Estaciones similares</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import BiocreativaLogo from '~/assets/svg/biocreativa.svg'
 
 export default {
-  computed: {
-    ...mapGetters({
-      isAuthenticated: 'isAuthenticated'
-    })
-  },
-  mounted () {
-    if (['sign-up', 'sign-in'].includes(this.$route.name) && this.isAuthenticated) {
-      this.$router.push('/')
-    }
+  components: {
+    BiocreativaLogo
   }
 }
 </script>
 
-<style lang="postcss">
-a {
-  @apply text-base;
-  @apply text-primary-300;
-
-  &:hover {
-    @apply underline;
-  }
-}
-
+<style lang="postcss" scoped>
 body {
-  font-family: 'yaahowu';
-  @apply bg-gray-50;
-  @apply min-h-screen;
-  @apply flex;
-  @apply justify-center;
-  @apply items-center;
-
-  & > div {
-    @apply flex-1;
-  }
+  @apply min-h-full;
+  @apply min-w-full;
 }
 
-button {
-  @apply bg-accent-500;
-  @apply border-2;
-  @apply border-gray-50;
-  @apply px-6;
-  @apply py-2;
-  @apply rounded-full;
-  @apply shadow-lg;
-  @apply text-gray-50;
-  @apply uppercase;
-
-  &.full {
-    @apply w-full;
-  }
-
-  &:disabled {
-    @apply cursor-not-allowed;
-    @apply opacity-50;
-  }
-
-  &:hover {
-    @apply bg-accent-300;
-  }
-
-  &:active, &:focus {
-    @apply bg-accent-900;
-    @apply outline-none;
-    @apply shadow-sm;
-  }
+.estilo-base {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-form {
-  @apply flex-col;
-  @apply flex;
-  @apply w-full;
-
-  & button[type="submit"] {
-    @apply self-end;
-  }
-
-  & span {
-    @apply text-gray-700;
-    @apply w-full;
-
-    &.error {
-      @apply text-error;
-    }
-  }
-
-  & > div {
-    @apply flex-col;
-    @apply flex;
-    @apply mb-4;
-  }
+.barra-navegacion {
+  background: #eef7fe;
 }
-
-h1 {
-  @apply text-6xl;
+.contenido-fondo {
+  background: #ffffff;
 }
-
-h2 {
-  @apply text-5xl;
-}
-
-h3 {
-  @apply text-4xl;
-}
-
-h4 {
-  @apply text-3xl;
-}
-
-h5 {
-  @apply text-2xl;
-}
-
-h6 {
-  @apply text-xl;
-}
-
-input {
-  @apply mb-2;
-
-  &.error {
-    @apply border-error;
-    @apply text-error;
-  }
-}
-
-label {
-  @apply font-bold;
-  @apply mb-2;
-  @apply text-base;
-  @apply text-gray-700;
-
-  &.error {
-    @apply text-error;
-  }
-}
-
-p {
-  @apply text-base;
-  @apply text-gray-700;
-  @apply mb-4;
-}
-
-.Card {
-  @apply mx-auto my-auto;
-  @apply bg-white shadow-xl rounded-2xl;
-  @apply flex flex-col justify-center;
-  @apply h-auto;
-  @apply px-8 py-12
-}
-
-.Card-actions {
-  @apply border-gray-100;
-  @apply border-t-2;
-  @apply mt-4;
-  @apply pt-4;
-  @apply text-center;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  @apply text-gray-900;
-  @apply font-bold;
-  @apply mb-2;
+.unete-ahora{
+  background-color: #00d8a4;
+  color: white;
 }
 </style>

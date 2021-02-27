@@ -178,6 +178,7 @@ export default {
     ValidationObserver,
     ValidationProvider
   },
+  layout: 'authentication',
   data () {
     return {
       email: '',
