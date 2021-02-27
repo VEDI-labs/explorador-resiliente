@@ -34,7 +34,13 @@
         <Nuxt />
       </div>
       <div class="col-span-2 row-span-4 bg-gray-50">
-        <p>Estaciones similares</p>
+        <section class="similar-stations">
+          <h4>Estaciones similares</h4>
+          <section>
+            <RadioCard />
+            <button>Ver más estaciones</button>
+          </section>
+        </section>
       </div>
     </div>
   </div>
@@ -42,10 +48,12 @@
 
 <script>
 import BiocreativaLogo from '~/assets/svg/biocreativa.svg'
+import RadioCard from '~/components/RadioCard.vue'
 
 export default {
   components: {
-    BiocreativaLogo
+    BiocreativaLogo,
+    RadioCard
   }
 }
 </script>
@@ -74,5 +82,15 @@ body {
 .unete-ahora{
   background-color: #00d8a4;
   color: white;
+}
+
+.similar-stations {
+  @apply text-left;
+  @apply px-4;
+
+  & button {
+    @apply block;
+    @apply mx-auto;
+  }
 }
 </style>
