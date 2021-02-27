@@ -2,7 +2,7 @@
   <div class="estilo-base flex">
     <div class="h-screen w-screen grid gap-0 grid-rows-4 grid-cols-12  barra-navegacion " >
         <div class="row-span-4 col-span-2 pr-8">
-            <div class="" >
+            <div>
                 <div class="mt-20">
                     <h1>
                         Icono
@@ -23,12 +23,12 @@
                   <i>
                     Icono
                   </i>
-                  <p class="text-center" >Registrate para obtener más beneficios</p>
+                  <p class="text-center">Registrate para obtener más beneficios</p>
                   <a href="#" class="rounded-full py-3 px-6 unete-ahora">ÚNETE AHORA</a>
                 </div>
             </div>
         </div>
-        <div class="col-span-8 row-span-4 rounded-l-lg contenidofondo py-12 px-8">
+        <div class="col-span-8 row-span-4 rounded-l-lg contenido-fondo py-12 px-8">
           <div class="box-content mb-10">
             <h2 class="text-left">Explorar</h2>
           </div>
@@ -45,7 +45,7 @@
             si
           </div>
         </div>
-        <div class="col-span-2 row-span-4 rounded-l-lg contenidofondo">
+        <div class="col-span-2 row-span-4 contenido-fondo">
           no
         </div>
     </div>
@@ -104,7 +104,7 @@
 .barra-navegacion {
   background: #eef7fe;
 }
-.contenidofondo {
+.contenido-fondo {
   background: #ffffff;
 }
 .unete-ahora{
