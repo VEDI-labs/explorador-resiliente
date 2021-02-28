@@ -5,30 +5,39 @@
       <div class="grid grid-cols-8 gap-8">
         <div class="col-span-2">
           <div>
-            <img class= "rounded-full shadow-lg mx-auto my-2 flex-left" :src="avatar_url" width="150" height="150"></img>
+            <img class="rounded-full shadow-lg mx-auto my-2 flex-left" :src="avatar_url" width="150" height="150"></img>
           </div>
         </div>
         <div class="col-span-6">
-          <h4>{{full_name}}</h4>
+          <h4 class="text-left">{{ full_name }}</h4>
           <div class="flex">
-            <FlagGuatemala/>
-            <p class="ml-3">Guatemala</p>
+            <p class="ml-3">
+              Guatemala
+            </p>
           </div>
           <p>Parte de una red de co-creación artística para la juventud intercultural</p>
         </div>
       </div>
       <div class="mt-12">
-        <button class ="menu_button active">Sonidos</button>
-        <button class ="menu_button">Objetos</button>
-        <button class ="menu_button">Comunidades</button>
-        <button class ="menu_button">Fotografías</button>
+        <button class="menu_button active">
+          Sonidos
+        </button>
+        <button class="menu_button">
+          Objetos
+        </button>
+        <button class="menu_button">
+          Comunidades
+        </button>
+        <button class="menu_button">
+          Fotografías
+        </button>
       </div>
       <div class="flex flex-col flex-1 w-full">
-        <song :name="full_name"></song>
-        <song :name="full_name"></song>
-        <song :name="full_name"></song>
-        <song :name="full_name"></song>
-        <song :name="full_name"></song>
+        <song :name="full_name" />
+        <song :name="full_name" />
+        <song :name="full_name" />
+        <song :name="full_name" />
+        <song :name="full_name" />
       </div>
     </div>
     <div class="col-span-3 col-start-10">
@@ -38,16 +47,9 @@
 </template>
 <script>
 import Song from '~/components/Song.vue'
-import FlagGuatemala from '~/assets/svg/flag-guatemala.svg'
 export default {
   components: {
-    Song,
-    FlagGuatemala
-  },
-  computed: {
-    full_name () {
-      return `${this.name} ${this.last_name}`
-    }
+    Song
   },
   data () {
     return {
@@ -55,6 +57,11 @@ export default {
       last_name: '',
       country: '',
       avatar_url: ''
+    }
+  },
+  computed: {
+    full_name () {
+      return `${this.name} ${this.last_name}`
     }
   },
   mounted () {

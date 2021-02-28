@@ -1,0 +1,71 @@
+<template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    :width="width"
+    :height="height"
+    :aria-labelledby="iconName"
+  >
+    <g id="icon-microphone" transform="translate(-416.391 -2246.852)">
+      <rect
+        id="Rectangle_138"
+        data-name="Rectangle 138"
+        width="24"
+        height="24"
+        transform="translate(416.391 2246.852)"
+        fill="#fff"
+        opacity="0"
+      />
+      <path
+        id="Path_2383"
+        data-name="Path 2383"
+        d="M421.2,2288.792l.228-.389,1.349-1.206-.386-.437h0l-.386-.438-1.509,1.348a1.414,1.414,0,0,0-.048,2.06.237.237,0,0,1,.071.182.282.282,0,0,1-.016.069l-.021.036a.205.205,0,0,1-.052.069l-.709.567a.588.588,0,0,0-.093.823h0a.58.58,0,0,0,.817.094l.709-.568a1.414,1.414,0,0,0,.106-2.111A.235.235,0,0,1,421.2,2288.792Z"
+        transform="translate(0 -22.844)"
+        :fill="color"
+      />
+      <path
+        id="Path_2384"
+        data-name="Path 2384"
+        d="M436.328,2267.12a3.85,3.85,0,0,1-2.465-.273l.261.263-6.959,5.965a.9.9,0,0,1-1.015.126.881.881,0,0,1-.242-1.333l4.789-5.657a.784.784,0,0,0,.1-.867h0a.773.773,0,0,0-1.278-.145l-4.727,5.584a2.521,2.521,0,0,0-.181,3.081,2.422,2.422,0,0,0,3.531.427l8.269-7.089Z"
+        transform="translate(-2.855 -9.799)"
+        :fill="color"
+      />
+      <path
+        id="Path_2385"
+        data-name="Path 2385"
+        d="M449.815,2258.037l-3.423-3.446a.588.588,0,0,1,0-.828h0a.579.579,0,0,1,.823,0l3.423,3.445a.589.589,0,0,1,0,.828h0A.583.583,0,0,1,449.815,2258.037Z"
+        transform="translate(-16.356 -2.889)"
+        :fill="color"
+      />
+      <path
+        id="Path_2386"
+        data-name="Path 2386"
+        d="M446.048,2258.191a4.652,4.652,0,1,1,3.282-1.365h0A4.6,4.6,0,0,1,446.048,2258.191Zm0-7.775a3.06,3.06,0,0,0-2.185.911,3.09,3.09,0,1,0,4.369,0A3.061,3.061,0,0,0,446.048,2250.416Z"
+        transform="translate(-13.409)"
+        :fill="color"
+      />
+    </g>
+  </svg>
+</template>
+<script>
+export default {
+  props: {
+    iconName: {
+      type: String,
+      default: 'box'
+    },
+    width: {
+      type: [Number, String],
+      default: 18
+    },
+    height: {
+      type: [Number, String],
+      default: 18
+    },
+    color: {
+      type: String,
+      default: 'currentColor'
+    }
+  }
+}
+</script>
