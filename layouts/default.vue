@@ -3,8 +3,8 @@
     <div class="h-screen w-screen grid gap-0 grid-rows-4 grid-cols-12  barra-navegacion ">
       <div class="col-span-2 row-span-4 pr-8">
         <div>
-          <div class="mt-20">
-            <BiocreativaLogo class="mx-auto" />
+          <div class="mt-20 flex items-center justify-center">
+            <Logo />
           </div>
           <div class="mt-10">
             <div class="rounded-full py-3 px-6">
@@ -47,12 +47,12 @@
 </template>
 
 <script>
-import BiocreativaLogo from '~/assets/svg/biocreativa.svg'
-import RadioCard from '~/components/RadioCard.vue'
+import Logo from '~/components/Logo'
+import RadioCard from '~/components/RadioCard.vue?inline'
 
 export default {
   components: {
-    BiocreativaLogo,
+    Logo,
     RadioCard
   }
 }

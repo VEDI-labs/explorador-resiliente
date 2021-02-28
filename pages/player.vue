@@ -12,24 +12,23 @@
           Nombre estación
         </h4>
         <div class="current-device">
-          <IconObject />
-          <span>Dispositivo actual</span>
+          <IconObject height="24" width="24" color="#081C1F" /><span>Dispositivo actual</span>
         </div>
       </section>
       <section class="controls">
         <div class="playback-controls">
           <button class="rounded ghost">
-            <IconPrevious />
+            <IconPrevious width="24" height="24" color="#0BA882" />
           </button>
           <button class="rounded play">
-            <IconPlay />
+            <IconPlay width="32" height="32" color="#ffffff" />
           </button>
           <button class="rounded ghost">
-            <IconNext />
+            <IconNext width="24" height="24" color="#0BA882" />
           </button>
         </div>
         <div>
-          <IconSpeaker />
+          <IconSpeaker width="32" height="32" color="#0BA882" />
         </div>
       </section>
     </section>
@@ -37,19 +36,19 @@
 </template>
 
 <script>
-import IconObject from '~/assets/svg/icon-object.svg'
-import IconPlay from '~/assets/svg/icon-play.svg'
-import IconNext from '~/assets/svg/icon-next.svg'
-import IconPrevious from '~/assets/svg/icon-previous.svg'
-import IconSpeaker from '~/assets/svg/icon-speaker.svg'
+import IconObject from '~/components/icons/IconObject'
+import IconSpeaker from '~/components/icons/IconSpeaker'
+import IconPlay from '~/components/icons/IconPlay'
+import IconPrevious from '~/components/icons/IconPrevious'
+import IconNext from '~/components/icons/IconNext'
 
 export default {
   components: {
     IconObject,
+    IconSpeaker,
     IconPlay,
-    IconNext,
     IconPrevious,
-    IconSpeaker
+    IconNext
   }
 }
 </script>
@@ -90,10 +89,13 @@ export default {
     }
   }
   .playback-controls {
-    @apply flex;
+    @apply flex items-center;
     @apply mb-12;
+
     & .play {
       @apply mx-2;
+      height: 64px;
+      width: 64px;
     }
   }
 </style>

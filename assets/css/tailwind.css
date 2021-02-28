@@ -56,11 +56,14 @@ button {
   }
 
   &.rounded {
-    @apply rounded-full w-16 h-16 flex items-center justify-center;
+    @apply rounded-full flex items-center justify-center;
+    @apply px-0 py-0;
+    height: 48px;
+    width: 48px;
   }
   
   &.ghost {
-    @apply bg-transparent shadow-none;
+    @apply bg-transparent shadow-none border-0 flex items-center justify-center;
 
     &:hover {
       @apply bg-transparent shadow-lg;

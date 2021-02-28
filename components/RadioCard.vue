@@ -8,14 +8,14 @@
     <section>
       <h6>Estación 1</h6>
       <div class="radio-station-indicator">
-        <IconObject />
+        <IconObject height="20" width="20" color="white" />
         <span>En vivo</span>
       </div>
     </section>
   </article>
 </template>
 <script>
-import IconObject from '~/assets/svg/icon-object.svg'
+import IconObject from '~/components/icons/IconObject'
 
 export default {
   components: {
@@ -27,10 +27,7 @@ export default {
 .radio-station {
   @apply flex mb-4;
 
-  & .radio-station-indicator {
-    @apply flex justify-center bg-red-900 rounded-full text-white px-2 py-1 uppercase;
-  }
-  & path {
+  & path, & rect {
     fill: white;
   }
   & span {
@@ -39,5 +36,9 @@ export default {
   & section {
     @apply mx-4;
   }
+}
+
+.radio-station-indicator {
+  @apply flex items-center justify-center bg-red-900 rounded-full text-white px-2 py-1 uppercase text-xs;
 }
 </style>
