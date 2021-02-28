@@ -8,13 +8,30 @@
           </div>
           <div class="mt-10">
             <div class="rounded-full py-3 px-6">
-              <a href="https://www.google.com" class="no-underline tm-2" style="color: #6b7779"><i class="mr-2">icono</i>Explorar</a>
-              <br>
-              <a href="https://www.google.com" class="no-underline mt-4" style="color: #6b7779"><i class="mr-2">icono</i>Estaciones</a>
-              <br>
-              <a href="https://www.google.com" class="no-underline mt-4" style="color: #6b7779"><i class="mr-2">icono</i>Comunidades</a>
-              <br>
-              <a href="https://www.google.com" class="no-underline mt-4" style="color: #6b7779"><i class="mr-2">icono</i>Artistas</a>
+              <div class="flex items-center mb-4">
+                <div class="bg-primary-300 w-8 h-8 rounded-lg flex items-center justify-center">
+                  <IconCompass color="white" height="24" width="24" />
+                </div>
+                <a href="https://www.google.com" class="no-underline tm-2 text-gray-700 ml-4">Explorar</a>
+              </div>
+              <div class="flex items-center mb-4">
+                <div class="bg-accent-300 w-8 h-8 rounded-lg flex items-center justify-center">
+                  <IconRadio color="white" height="24" width="24" />
+                </div>
+                <a href="https://www.google.com" class="no-underline tm-2 text-gray-700 ml-4">Estaciones</a>
+              </div>
+              <div class="flex items-center mb-4">
+                <div class="bg-yellow-500 w-8 h-8 rounded-lg flex items-center justify-center">
+                  <IconWorld color="white" height="24" width="24" />
+                </div>
+                <a href="https://www.google.com" class="no-underline tm-2 text-gray-700 ml-4">Comunidades</a>
+              </div>
+              <div class="flex items-center mb-4">
+                <div class="bg-red-500 w-8 h-8 rounded-lg flex items-center justify-center">
+                  <IconGuitar color="white" height="24" width="24" />
+                </div>
+                <a href="https://www.google.com" class="no-underline tm-2 text-gray-700 ml-4">Artistas</a>
+              </div>
             </div>
           </div>
           <div class="mt-48 ml-10 mr-8 px-2 pt-4 pb-8 rounded box-content w-48 shadow-2xl" style="background: #ffffff;">
@@ -48,10 +65,18 @@
 
 <script>
 import Logo from '~/components/Logo'
+import IconCompass from '~/components/icons/IconCompass'
+import IconRadio from '~/components/icons/IconRadio'
+import IconWorld from '~/components/icons/IconWorld'
+import IconGuitar from '~/components/icons/IconGuitar'
 import RadioCard from '~/components/RadioCard.vue?inline'
 
 export default {
   components: {
+    IconCompass,
+    IconRadio,
+    IconWorld,
+    IconGuitar,
     Logo,
     RadioCard
   }
