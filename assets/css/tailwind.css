@@ -37,6 +37,7 @@ body {
 
   & > div {
     @apply flex-1;
+    @apply w-full;
   }
 }
 

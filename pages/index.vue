@@ -1,103 +1,118 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1>
-        Explorador Resiliente
-      </h1>
-      <h2>
-        Explorador Resiliente
-      </h2>
-      <h3>
-        Explorador Resiliente
-      </h3>
-      <h4>
-        Explorador Resiliente
-      </h4>
-      <h5>
-        Explorador Resiliente
-      </h5>
-      <h6>
-        Explorador Resiliente
-      </h6>
-      <a href="#">Hola mundo</a>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore doloribus aut ad aspernatur dolores suscipit quam vel, consequuntur ut quasi aliquam omnis excepturi? Hic cupiditate, similique vel quasi sequi iure?</p>
-      <div v-show="isAuthenticated">
-        <p>
-          Bienvenido {{ user.email }}
-        </p>
-        <button
-          @click="signOut"
-        >
-          Cerrar sesión
-        </button>
+  <div class="flex flex-col items-start w-full">
+    <h2>
+      Explorar
+    </h2>
+    <div
+      class="Community"
+      :style="{
+        backgroundImage: `url(${url})`
+      }"
+    >
+      <div class="Community-container">
+        <div class="Community-content">
+          <span class="bg-accent-500 px-4 py-1 text-sm rounded-md text-white">Destacada del mes</span>
+          <h3 class="text-white">
+            VEDI Quetzaltenango
+          </h3>
+          <div class="flex justify-center items-center">
+            <div class="flex">
+              <img class="rounded-full border-2 border-white shadow-md" src="https://ui-avatars.com/api/?name=User" width="32" height="32" alt="">
+              <img class="rounded-full border-2 border-white shadow-md -ml-4" src="https://ui-avatars.com/api/?name=User" width="32" height="32" alt="">
+              <img class="rounded-full border-2 border-white shadow-md -ml-4" src="https://ui-avatars.com/api/?name=User" width="32" height="32" alt="">
+              <img class="rounded-full border-2 border-white shadow-md -ml-4" src="https://ui-avatars.com/api/?name=User" width="32" height="32" alt="">
+              <img class="rounded-full border-2 border-white shadow-md -ml-4" src="https://ui-avatars.com/api/?name=User" width="32" height="32" alt="">
+            </div>
+            <p class="ml-2 mb-0 text-white">
+              +12 personas
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-8 gap-8 text-left mt-8 w-full">
+      <div class="col-span-4">
+        <div class="flex items-center justify-between">
+          <h4>Sonidos</h4>
+          <a href="#">Ver más</a>
+        </div>
+        <div>
+          <SoundCard />
+          <SoundCard />
+          <SoundCard />
+          <SoundCard />
+        </div>
+      </div>
+      <div class="col-span-4">
+        <div class="flex items-center justify-between">
+          <h4>Artistas</h4>
+          <a href="#">Ver más</a>
+        </div>
+        <div class="grid grid-cols-4 gap-x-4 gap-y-8">
+          <ArtistCard full-name="Renato Cifuentes" class="Artist" />
+          <ArtistCard full-name="Fernando Martínez" class="Artist" />
+          <ArtistCard full-name="Alejandra González" class="Artist" />
+          <ArtistCard full-name="Ester Samayoa" class="Artist" />
+        </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
-import { mapGetters, mapState } from 'vuex'
-
+import ArtistCard from '~/components/ArtistCard'
+import SoundCard from '~/components/SoundCard'
 export default {
-  computed: {
-    ...mapGetters({
-      isAuthenticated: 'isAuthenticated'
-    }),
-    ...mapState({
-      user: state => state.user
-    })
+  components: {
+    ArtistCard,
+    SoundCard
   },
-  methods: {
-    async signOut () {
-      await this.$fire.auth.signOut()
+  data () {
+    return {
+      url: 'https://images.unsplash.com/photo-1518105570919-e342af1a8275?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1353&q=80'
     }
   }
 }
+
 </script>
 
-<style scoped>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
+<style lang="postcss" scoped>
+.Artist {
+  @apply col-span-2;
 }
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.Community {
+  @apply bg-gray-100;
+  @apply bg-center;
+  @apply bg-no-repeat;
+  @apply flex-col;
+  @apply flex;
+  @apply items-start;
+  @apply justify-end;
+  @apply rounded-xl;
+  @apply w-full;
+  @apply shadow-xl;
+  @apply overflow-hidden;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.Community-container {
+  background: rgb(8,28,31);
+  background: linear-gradient(180deg, rgba(8,28,31,0) 0%, rgba(8,28,31,0.2) 40%, rgba(8,28,31,0.88) 100%);
+  height: 0;
+  padding-bottom: 33.33%;
+  position: relative;
+  width: 100%;
 }
 
-.links {
-  padding-top: 15px;
+.Community-content {
+  @apply flex-col;
+  @apply flex;
+  @apply items-start;
+  @apply justify-end;
+  @apply px-8;
+  @apply py-4;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 </style>
