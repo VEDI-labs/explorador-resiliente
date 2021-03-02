@@ -1,6 +1,6 @@
 <template>
   <article class="radio-station">
-    <div class="figure-container">
+    <div class="figure-container w-1/4">
       <figure>
         <img src="~/assets/images/bird-cover.jpg" alt="Cover">
       </figure>

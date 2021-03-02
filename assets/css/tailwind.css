@@ -170,21 +170,17 @@ p {
   @apply px-8 py-12
 }
 
-.figure-container {
-  @apply w-1/4;
+.figure-container img {
+  @apply bg-gray-500 w-full h-full;
+  object-fit: cover;
+  position: absolute;
+}
 
-  & img {
-    @apply bg-gray-500 w-full h-full;
-    object-fit: cover;
-    position: absolute;
-  }
-
-  & figure {
-    @apply border-4 border-white rounded-xl shadow-lg;
-    position: relative;
-    padding-bottom: 100%;
-    overflow: hidden;
-  }
+.figure-container figure {
+  @apply border-4 border-white rounded-xl shadow-lg;
+  position: relative;
+  padding-bottom: 100%;
+  overflow: hidden;
 }
 
 .Card-actions {

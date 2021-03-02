@@ -1,11 +1,26 @@
 <template>
-  <div class="sound-card">
-    <div class="figure-container">
+  <div
+    class="sound-card"
+    :class="{
+      'flex': column,
+      'flex-col': column
+    }"
+  >
+    <div
+      class="figure-container w-1/4"
+      :class="column ? 'w-full' : 'w-1/4'"
+    >
       <figure>
         <img src="~/assets/images/bird-cover.jpg" alt="Cover">
       </figure>
     </div>
-    <section class="flex flex-col flex-1 justify-center">
+    <section
+      class="flex flex-col flex-1 justify-center"
+      :class="{
+        'mt-2': column,
+        'mx-4': !column
+      }"
+    >
       <h6 class="mb-1">
         Colobrí en la mañana
       </h6>
@@ -31,6 +46,12 @@ export default {
   components: {
     IconMicrophone,
     IconTime
+  },
+  props: {
+    column: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 </script>
@@ -40,9 +61,6 @@ export default {
 
   & span {
     @apply ml-1
-  }
-  & section {
-    @apply mx-4;
   }
 }
 </style>

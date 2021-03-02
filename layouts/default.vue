@@ -6,7 +6,7 @@
           <Logo width="50%" />
         </div>
         <div class="mt-8">
-          <div class="MenuItem">
+          <NuxtLink to="/" class="MenuItem">
             <div class="Icon">
               <div class="Icon-ratio aspect-w-1 aspect-h-1">
                 <div class="Icon-container bg-primary-300">
@@ -15,7 +15,7 @@
               </div>
             </div>
             <span>Explorar</span>
-          </div>
+          </NuxtLink>
 
           <div class="MenuItem">
             <div class="Icon">
@@ -28,7 +28,7 @@
             <span>Estaciones</span>
           </div>
 
-          <div class="MenuItem">
+          <NuxtLink to="/communities" class="MenuItem">
             <div class="Icon">
               <div class="Icon-ratio aspect-w-1 aspect-h-1">
                 <div class="Icon-container bg-yellow-500">
@@ -37,9 +37,9 @@
               </div>
             </div>
             <span>Comunidades</span>
-          </div>
+          </NuxtLink>
 
-          <div class="MenuItem">
+          <NuxtLink to="/artists" class="MenuItem">
             <div class="Icon">
               <div class="Icon-ratio aspect-w-1 aspect-h-1">
                 <div class="Icon-container bg-red-500">
@@ -48,7 +48,7 @@
               </div>
             </div>
             <span>Artistas</span>
-          </div>
+          </NuxtLink>
         </div>
         <div class="mt-8 px-4">
           <div class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
@@ -56,7 +56,10 @@
             <p class="text-center">
               Registrate para obtener más beneficios
             </p>
-            <button class="bg-green-500 px-4 py-2 text-white">
+            <button
+              class="bg-green-500 px-4 py-2 text-white"
+              @click="signUp"
+            >
               ÚNETE AHORA
             </button>
           </div>
@@ -96,6 +99,11 @@ export default {
     IconUser,
     Logo,
     RadioCard
+  },
+  methods: {
+    signUp () {
+      this.$router.push('/sign-up')
+    }
   }
 }
 </script>
