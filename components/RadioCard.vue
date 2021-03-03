@@ -1,13 +1,19 @@
 <template>
-  <article class="radio-station">
+  <article
+    class="radio-station"
+    @click.stop="goToPlayer()"
+  >
     <div class="figure-container w-1/4">
       <figure>
-        <img src="~/assets/images/bird-cover.jpg" alt="Cover">
+        <img :src="item.picture" alt="Cover">
       </figure>
     </div>
     <section>
-      <h6>Estación 1</h6>
-      <div class="radio-station-indicator">
+      <h6>{{ item.name }}</h6>
+      <div
+        v-show="item.status === 'online'"
+        class="radio-station-indicator"
+      >
         <IconObject height="20" width="20" color="white" />
         <span>En vivo</span>
       </div>
@@ -20,12 +26,35 @@ import IconObject from '~/components/icons/IconObject'
 export default {
   components: {
     IconObject
+  },
+  props: {
+    item: {
+      type: Object,
+      default () {
+        return {
+          name: 'Estación',
+          status: 'offline',
+          picture: '',
+          type: 'resilient-object',
+          id: null
+        }
+      }
+    }
+  },
+  methods: {
+    goToPlayer () {
+      this.$router.push({
+        name: 'player-slug',
+        params: { slug: this.item.id },
+        query: { type: this.item.type }
+      })
+    }
   }
 }
 </script>
 <style lang="postcss" scoped>
 .radio-station {
-  @apply flex mb-4;
+  @apply flex items-center mb-4;
 
   & path, & rect {
     fill: white;
@@ -35,6 +64,10 @@ export default {
   }
   & section {
     @apply mx-4;
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 }
 

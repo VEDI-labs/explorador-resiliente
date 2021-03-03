@@ -1,18 +1,18 @@
 <template>
   <div class="stations">
-    <h1>Estaciones</h1>
+    <h1>Música</h1>
     <section class="current-station">
       <section class="cover">
-        <div class="figure-container">
+        <div class="figure-container w-1/4">
           <figure>
-            <img src="~/assets/images/bird-cover.jpg" alt="Cover">
+            <img :src="picture" alt="Cover">
           </figure>
         </div>
         <h4 class="station-name">
-          Nombre estación
+          {{ name }}
         </h4>
-        <div class="current-device">
-          <IconObject height="24" width="24" color="#081C1F" /><span>Dispositivo actual</span>
+        <div v-show="status === 'online'" class="current-device">
+          <IconObject height="24" width="24" color="#ffffff" /><span>En vivo</span>
         </div>
       </section>
       <section class="controls">
@@ -49,6 +49,29 @@ export default {
     IconPlay,
     IconPrevious,
     IconNext
+  },
+  data () {
+    return {
+      name: '',
+      picture: '',
+      id: null,
+      type: '',
+      status: 'offline'
+    }
+  },
+  async mounted () {
+    const collection = this.$route.query.type === 'resilient-object' ? 'resilient-objects' : 'stations'
+    const record = await this.$fire.firestore.collection(collection).doc(this.$route.params.slug).get()
+    if (record.exists) {
+      const data = record.data()
+      this.id = record.id
+      this.name = data.name
+      this.picture = data.picture
+      this.status = data.status
+      this.type = this.$route.query.type
+    } else {
+      this.$router.push('/404')
+    }
   }
 }
 </script>
@@ -74,7 +97,7 @@ export default {
     @apply my-4;
   }
   .controls {
-    @apply self-center my-4;
+    @apply self-center my-2;
   }
   .similar-stations {
     @apply flex flex-col;
@@ -84,8 +107,13 @@ export default {
   }
   .current-device {
     @apply flex;
+    @apply bg-red-900;
+    @apply px-4 py-2;
+    @apply rounded-full;
+
     & span {
       @apply ml-1;
+      @apply text-white;
     }
   }
   .playback-controls {

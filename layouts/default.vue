@@ -72,8 +72,52 @@
         <section class="similar-stations">
           <h5>Estaciones</h5>
           <section>
-            <RadioCard />
-            <button>Ver más estaciones</button>
+            <p class="uppercase text-sm text-gray-500">
+              Objetos resilientes
+            </p>
+            <div v-if="resilientObjects.length > 0">
+              <RadioCard
+                v-for="(resilientObject, index) of resilientObjects"
+                :key="index"
+                :item="{
+                  ...resilientObject,
+                  type: 'resilient-object'
+                }"
+              />
+            </div>
+            <div
+              v-else
+              class="flex flex-col items-center my-2"
+            >
+              <IconObject color="#6B7779" height="25%" width="25%" />
+              <p class="text-center text-gray-500">
+                No hay objetos resilientes transmitiendo .
+              </p>
+            </div>
+          </section>
+          <section class="mt-12">
+            <p class="uppercase text-sm text-gray-500">
+              Estaciones resilientes
+            </p>
+            <div v-if="stations.length > 0">
+              <RadioCard
+                v-for="(station, index) of stations"
+                :key="index"
+                :item="{
+                  ...station,
+                  type: 'station'
+                }"
+              />
+            </div>
+            <div
+              v-else
+              class="flex flex-col items-center my-2"
+            >
+              <IconObject color="#6B7779" height="25%" width="25%" />
+              <p class="text-center text-gray-500">
+                No hay estaciones resilientes transmitiendo .
+              </p>
+            </div>
           </section>
         </section>
       </div>
@@ -87,6 +131,7 @@ import IconCompass from '~/components/icons/IconCompass'
 import IconRadio from '~/components/icons/IconRadio'
 import IconWorld from '~/components/icons/IconWorld'
 import IconGuitar from '~/components/icons/IconGuitar'
+import IconObject from '~/components/icons/IconObject'
 import IconUser from '~/components/icons/IconUser'
 import RadioCard from '~/components/RadioCard.vue?inline'
 
@@ -97,10 +142,36 @@ export default {
     IconWorld,
     IconGuitar,
     IconUser,
+    IconObject,
     Logo,
     RadioCard
   },
+  data () {
+    return {
+      resilientObjects: [],
+      stations: []
+    }
+  },
+  async mounted () {
+    this.resilientObjects = await this.loadData('resilient-objects')
+    this.stations = await this.loadData('stations')
+  },
   methods: {
+    async loadData (collection) {
+      const items = []
+      const { docs } = await this.$fire.firestore.collection(collection).get()
+      for (const doc of docs) {
+        const data = doc.data()
+        items.push({
+          id: doc.id,
+          name: data.name,
+          picture: data.picture,
+          status: data.status,
+          ref: doc.ref
+        })
+      }
+      return items
+    },
     signUp () {
       this.$router.push('/sign-up')
     }
