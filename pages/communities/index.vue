@@ -1,28 +1,12 @@
 <template>
   <div class="flex flex-col items-start w-full">
     <h1>Comunidades</h1>
-    <section class="flex flex-col items-start w-full">
+    <section v-for="country in countries" :key="country.code" class="flex flex-col items-start mb-8 w-full">
       <h4 class="mb-4">
-        Guatemala
+        {{ country.name }}
       </h4>
       <div class="grid grid-cols-8 w-full gap-x-4 gap-y-6">
-        <CommunityCard class="col-span-4" />
-        <CommunityCard class="col-span-4" />
-        <CommunityCard class="col-span-4" />
-        <CommunityCard class="col-span-4" />
-        <CommunityCard class="col-span-4" />
-      </div>
-    </section>
-    <section class="flex flex-col items-start w-full mt-16">
-      <h4 class="mb-4">
-        México
-      </h4>
-      <div class="grid grid-cols-8 w-full gap-x-4 gap-y-6">
-        <CommunityCard class="col-span-4" />
-        <CommunityCard class="col-span-4" />
-        <CommunityCard class="col-span-4" />
-        <CommunityCard class="col-span-4" />
-        <CommunityCard class="col-span-4" />
+        <CommunityCard v-for="community in byCountry(country)" :key="community.id" class="col-span-4" />
       </div>
     </section>
   </div>
@@ -32,6 +16,36 @@ import CommunityCard from '~/components/CommunityCard'
 export default {
   components: {
     CommunityCard
+  },
+  data () {
+    return {
+      communities: [],
+      countries: []
+    }
+  },
+  async mounted () {
+    const { docs } = await this.$fire.firestore.collection('communities').get()
+    for (const doc of docs) {
+      const data = doc.data()
+      this.communities.push({
+        id: doc.id,
+        name: data.name,
+        picture: data.picture,
+        featured: data.featured,
+        people: data.people,
+        sounds: data.sounds,
+        country: data.country
+      })
+      const country = this.countries.find(c => c.code === data.country.code)
+      if (country === undefined) {
+        this.countries.push(data.country)
+      }
+    }
+  },
+  methods: {
+    byCountry (country) {
+      return this.communities.filter(community => community.country.code === country.code)
+    }
   }
 }
 </script>
