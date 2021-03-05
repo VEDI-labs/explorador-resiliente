@@ -46,6 +46,11 @@ export default {
       sounds: []
     }
   },
+  head () {
+    return {
+      title: `${this.community.name} | Explorador Resiliente`
+    }
+  },
   async mounted () {
     const doc = await this.$fire.firestore.collection('communities').doc(this.$route.params.slug).get()
     await this.loadPeople()

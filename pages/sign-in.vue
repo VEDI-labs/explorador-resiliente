@@ -127,6 +127,11 @@ export default {
       UI_STATES
     }
   },
+  head () {
+    return {
+      title: 'Iniciar sesión | Explorador Resiliente'
+    }
+  },
   methods: {
     async signIn () {
       try {

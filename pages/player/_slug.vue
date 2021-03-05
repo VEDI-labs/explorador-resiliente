@@ -85,6 +85,11 @@ export default {
       volume: 80
     }
   },
+  head () {
+    return {
+      title: `${this.name} | Explorador Resiliente`
+    }
+  },
   watch: {
     volume () {
       this.$refs.audio.volume = this.volume / 100

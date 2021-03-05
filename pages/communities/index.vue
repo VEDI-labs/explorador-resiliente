@@ -23,6 +23,11 @@ export default {
       countries: []
     }
   },
+  head () {
+    return {
+      title: 'Comunidades | Explorador Resiliente'
+    }
+  },
   async mounted () {
     const { docs } = await this.$fire.firestore.collection('communities').get()
     for (const doc of docs) {

@@ -124,6 +124,11 @@ export default {
       tab: 'sounds'
     }
   },
+  head () {
+    return {
+      title: `${this.artist.name} | Explorador Resiliente`
+    }
+  },
   async mounted () {
     const doc = await this.$fire.firestore.collection('profiles').doc(this.$route.params.slug).get()
     if (doc.exists) {

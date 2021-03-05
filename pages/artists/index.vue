@@ -24,6 +24,11 @@ export default {
       artists: []
     }
   },
+  head () {
+    return {
+      title: 'Artistas | Explorador Resiliente'
+    }
+  },
   async mounted () {
     const { docs } = await this.$fire.firestore.collection('profiles').where('isArtist', '==', true).get()
     for (const doc of docs) {
