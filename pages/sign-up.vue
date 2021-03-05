@@ -46,7 +46,7 @@
             <label
               :class="{ error: errors.length > 0 }"
             >País</label>
-            <select class="form-select">
+            <select class="form-select" v-model="country" name="country">
               <option>Guatemala</option>
               <option>México</option>
             </select>
@@ -182,6 +182,7 @@ export default {
     return {
       email: '',
       name: '',
+      country: '',
       password: '',
       passwordConfirmation: '',
       uiState: UI_STATES.BLANK,
@@ -197,10 +198,14 @@ export default {
     async signUp () {
       try {
         this.uiState = UI_STATES.LOADING
-        await this.$fire.auth.createUserWithEmailAndPassword(
+        const newuser = await this.$fire.auth.createUserWithEmailAndPassword(
           this.email,
           this.password
         )
+        await this.$fire.firestore.collection('profiles').doc(newuser.user.uid).set({
+          name: this.name,
+          country: this.country
+        })
         this.uiState = UI_STATES.IDEAL
         this.$router.push('/')
       } catch (error) {
