@@ -72,41 +72,11 @@
         <section class="similar-stations">
           <h5>Estaciones</h5>
           <section>
-            <p class="uppercase text-sm text-gray-500">
-              Objetos resilientes
-            </p>
-            <div v-if="resilientObjects.length > 0">
-              <RadioCard
-                v-for="(resilientObject, index) of resilientObjects"
-                :key="index"
-                :item="{
-                  ...resilientObject,
-                  type: 'resilient-object'
-                }"
-              />
-            </div>
-            <div
-              v-else
-              class="flex flex-col items-center my-2"
-            >
-              <IconObject color="#6B7779" height="25%" width="25%" />
-              <p class="text-center text-gray-500">
-                No hay objetos resilientes transmitiendo .
-              </p>
-            </div>
-          </section>
-          <section class="mt-12">
-            <p class="uppercase text-sm text-gray-500">
-              Estaciones resilientes
-            </p>
             <div v-if="stations.length > 0">
               <RadioCard
                 v-for="(station, index) of stations"
                 :key="index"
-                :item="{
-                  ...station,
-                  type: 'station'
-                }"
+                :item="station"
               />
             </div>
             <div
@@ -148,18 +118,16 @@ export default {
   },
   data () {
     return {
-      resilientObjects: [],
       stations: []
     }
   },
   async mounted () {
-    this.resilientObjects = await this.loadData('resilient-objects')
-    this.stations = await this.loadData('stations')
+    this.stations = await this.loadData()
   },
   methods: {
-    async loadData (collection) {
+    async loadData () {
       const items = []
-      const { docs } = await this.$fire.firestore.collection(collection).get()
+      const { docs } = await this.$fire.firestore.collection('stations').get()
       for (const doc of docs) {
         const data = doc.data()
         items.push({
@@ -170,6 +138,13 @@ export default {
           ref: doc.ref
         })
       }
+      items.sort((a, b) => {
+        if (a.status === 'online' && b.status === 'offline') {
+          return -1
+        } else {
+          return 1
+        }
+      })
       return items
     },
     signUp () {
