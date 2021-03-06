@@ -176,7 +176,6 @@
           </button>
         </form>
       </validation-observer>
-      <button v-on:click="prueba">olis</button>
       <div class="Card-actions">
         <p>¿Ya tienes una cuenta?</p>
         <a href="#">Iniciar sesión</a>
