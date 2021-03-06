@@ -55,6 +55,20 @@ button {
   &.full {
     @apply w-full;
   }
+  
+  &.mini {
+    @apply bg-transparent;
+    @apply text-primary-500;
+    @apply shadow-none;
+    @apply text-xs;
+    @apply border-0;
+
+    &:hover {
+      @apply bg-transparent;
+      @apply text-accent-300;
+      @apply shadow-lg;
+    }
+  }
 
   &.rounded {
     @apply rounded-full flex items-center justify-center;
