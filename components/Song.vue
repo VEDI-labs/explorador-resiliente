@@ -33,9 +33,12 @@ export default {
     IconTime,
     IconMicrophone
   },
-  props: [
-    'name'
-  ]
+  props: {
+    name: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
 <style>
