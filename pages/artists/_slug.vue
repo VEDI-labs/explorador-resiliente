@@ -90,7 +90,8 @@
       <CommunityCard
         v-for="community in communities"
         :key="community.id"
-        class="col-span-4"
+        :community="community"
+        class="col-span-8"
       />
     </div>
   </div>

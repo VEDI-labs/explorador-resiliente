@@ -1,5 +1,5 @@
 <template>
-  <article class="flex flex-col items-center">
+  <article class="flex flex-col items-center" @click.stop="goToArtistPage()">
     <img
       class="rounded-full border-2 border-white shadow-md mb-4"
       :src="`https://ui-avatars.com/api/?name=${profile.name}`"
@@ -29,6 +29,7 @@ export default {
       type: Object,
       default () {
         return {
+          id: null,
           bio: '',
           communities: '',
           isArtist: false,
@@ -41,6 +42,11 @@ export default {
           }
         }
       }
+    }
+  },
+  methods: {
+    goToArtistPage () {
+      this.$router.push(`/artists/${this.profile.id}`)
     }
   }
 }

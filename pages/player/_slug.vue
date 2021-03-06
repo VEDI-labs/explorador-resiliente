@@ -22,6 +22,7 @@
         <div class="playback-controls">
           <button
             class="rounded play"
+            :disabled="status === 'offline'"
             @click="ConnectStation"
           >
             <IconPlay v-if="isPaused" width="32" height="32" color="#ffffff" />

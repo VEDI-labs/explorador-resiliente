@@ -4,6 +4,7 @@
     :style="{
       backgroundImage: `url(${ community.picture })`
     }"
+    @click.stop="goToDetailPage"
   >
     <div class="Community-container">
       <div class="Community-content">
@@ -55,6 +56,7 @@ export default {
       type: Object,
       default () {
         return {
+          id: null,
           featured: false,
           name: '',
           people: [],
@@ -72,6 +74,11 @@ export default {
       default () {
         return []
       }
+    }
+  },
+  methods: {
+    goToDetailPage () {
+      this.$router.push(`/communities/${this.community.id}`)
     }
   }
 }

@@ -51,7 +51,7 @@
           </NuxtLink>
         </div>
         <div class="mt-8 px-4">
-          <div v-if="user && user.uid !== null && user.profile" class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
+          <div v-if="user && user.uid && user.profile" class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
             <img
               class="rounded-full border-2 border-white shadow-md mb-2"
               :src="user.profile.picture"
@@ -165,32 +165,27 @@ export default {
       user: 'user'
     })
   },
-  async mounted () {
-    this.stations = await this.loadData()
-  },
-  methods: {
-    async loadData () {
-      const items = []
-      const { docs } = await this.$fire.firestore.collection('stations').get()
-      for (const doc of docs) {
-        const data = doc.data()
-        items.push({
-          id: doc.id,
-          name: data.name,
-          picture: data.picture,
-          status: data.status,
-          ref: doc.ref
-        })
-      }
-      items.sort((a, b) => {
-        if (a.status === 'online' && b.status === 'offline') {
-          return -1
-        } else {
-          return 1
+  mounted () {
+    this.$fire.firestore.collection('stations').onSnapshot((querySnapshot) => {
+      querySnapshot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          const data = change.doc.data()
+          this.stations.push({
+            id: change.doc.id,
+            name: data.name,
+            picture: data.picture,
+            status: data.status,
+            ref: change.doc.ref
+          })
+        }
+        if (change.type === 'modified') {
+          const record = this.stations.find(station => station.id === change.doc.id)
+          record.status = change.doc.data().status
         }
       })
-      return items
-    },
+    })
+  },
+  methods: {
     signUp () {
       this.$router.push('/sign-up')
     },
