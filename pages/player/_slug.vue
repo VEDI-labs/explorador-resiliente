@@ -22,8 +22,7 @@
         <div class="playback-controls">
           <button
             class="rounded play"
-            :disabled="status === 'offline'"
-            @click="togglePlayer"
+            @click="ConnectStation"
           >
             <IconPlay v-if="isPaused" width="32" height="32" color="#ffffff" />
             <IconPause v-else width="32" height="32" color="#ffffff" />
@@ -54,7 +53,7 @@
             </client-only>
           </div>
         </div>
-        <audio ref="audio" :volume="volume / 100" loop />
+        <audio ref="audio" :volume="volume / 100" autoplay="autoplay" />
       </section>
     </section>
   </div>
@@ -65,6 +64,7 @@ import IconObject from '~/components/icons/IconObject'
 import IconSpeaker from '~/components/icons/IconSpeaker'
 import IconPlay from '~/components/icons/IconPlay'
 import IconPause from '~/components/icons/IconPause'
+import { SonoraListener } from '~/stream/sonora-listener'
 
 export default {
   components: {
@@ -93,17 +93,14 @@ export default {
       this.$refs.audio.volume = this.volume / 100
     }
   },
-  async mounted () {
-    const record = await this.$fire.firestore.collection('stations').doc(this.$route.params.slug).get()
-    if (record.exists) {
-      const data = record.data()
-      this.id = record.id
+  mounted () {
+    this.$fire.firestore.collection('stations').doc(this.$route.params.slug).onSnapshot((query) => {
+      const data = query.data()
+      this.id = query.id
       this.name = data.name
       this.picture = data.picture
       this.status = data.status
-    } else {
-      this.$router.push('/404')
-    }
+    })
   },
   methods: {
     togglePlayer () {
@@ -115,6 +112,13 @@ export default {
         this.$refs.audio.pause()
         this.isPaused = true
       }
+    },
+    SuccessConection (event) {
+      this.$refs.audio.srcObject = event.streams[0]
+    },
+    async ConnectStation () {
+      const listener = await SonoraListener.connect()
+      listener.listen(this.id, this.SuccessConection)
     }
   }
 }
