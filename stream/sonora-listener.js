@@ -7,7 +7,7 @@ export class SonoraListener {
     this.id = null
   }
 
-  listen(id) {
+  listen(id, callback) {
     this.id = id
 
     const handleMessage = (event) => {
@@ -25,8 +25,9 @@ export class SonoraListener {
           this._addIceCandidate(data)
           break
         case 'joined':
-          this._addTracks(data)
+          this._addTracks(data, callback)
           break
+
         case 'remove_peer':
           this._removePeer(data)
           break
@@ -96,7 +97,7 @@ export class SonoraListener {
       offerToReceiveVideo: 0,
       voiceActivityDetection: false
     })
-    
+
     await pc.setLocalDescription(offer)
 
     this._executeAction('listenersession', {
@@ -105,6 +106,18 @@ export class SonoraListener {
     })
     
   }
+
+  _addTracks(data, callback) {
+    const peerId = data.peerId
+    const peer = this.peers[peerId]
+
+    peer.onTrackAdded = (event) => {
+      if (callback) {
+        callback(event)
+      }
+    }
+  }
+
   async _setRemoteDescription(data) {
     try {
       const peerId = data.peerId
