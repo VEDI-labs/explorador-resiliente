@@ -94,7 +94,9 @@
         </form>
         <div class="Card-actions">
           <p>¿Aún no tienes una cuenta?</p>
-          <a href="#">Regístrate gratis</a>
+          <nuxt-link to="/sign-up">
+            Regístrate gratis
+          </nuxt-link>
         </div>
       </validation-observer>
     </div>

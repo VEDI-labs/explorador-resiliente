@@ -6,7 +6,7 @@
         {{ country.name }}
       </h4>
       <div class="grid grid-cols-8 w-full gap-x-4 gap-y-6">
-        <CommunityCard v-for="community in byCountry(country)" :key="community.id" class="col-span-4" />
+        <CommunityCard v-for="community in byCountry(country)" :key="community.id" :community="community" class="col-span-4" />
       </div>
     </section>
   </div>
@@ -36,7 +36,7 @@ export default {
         id: doc.id,
         name: data.name,
         picture: data.picture,
-        featured: data.featured,
+        featured: false,
         people: data.people,
         sounds: data.sounds,
         country: data.country

@@ -35,6 +35,23 @@
           }"
         >
           <IconSpeaker width="32" height="32" color="#0BA882" />
+          <div class="ml-8 flex-1">
+            <client-only placeholder="Loading...">
+              <vue-slider
+                v-model="volume"
+                :disabled="status === 'offline'"
+                :dot-style="{
+                  borderColor: '#0BA882'
+                }"
+                :process-style="{
+                  backgroundColor: '#0BA882'
+                }"
+                :rail-style="{
+                  backgroundColor: '#E1E5E6'
+                }"
+              />
+            </client-only>
+          </div>
         </div>
         <audio ref="audio" :volume="volume / 100" autoplay="autoplay" />
       </section>
@@ -43,9 +60,6 @@
 </template>
 
 <script>
-// import VueSlider from 'vue-slider-component'
-// import 'vue-slider-component/theme/antd.css'
-
 import IconObject from '~/components/icons/IconObject'
 import IconSpeaker from '~/components/icons/IconSpeaker'
 import IconPlay from '~/components/icons/IconPlay'

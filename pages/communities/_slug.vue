@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col items-start w-full">
     <h1>Comunidades</h1>
-    <CommunityCard />
+    <CommunityCard :community="community" />
     <div class="text-left mt-8 w-full">
       <div class="flex items-center justify-between">
         <h4>Artistas</h4>
       </div>
       <div class="grid grid-cols-8 gap-8 w-full">
-        <ArtistCard v-for="artist in people" :key="artist.id" :full-name="artist.name" class="col-span-2" />
+        <ArtistCard v-for="artist in people" :key="artist.id" :profile="artist" class="col-span-2" />
       </div>
     </div>
     <div class="text-left mt-8 w-full">
@@ -15,7 +15,7 @@
         <h4>Sonidos</h4>
       </div>
       <div class="grid grid-cols-8 gap-8 w-full">
-        <SoundCard v-for="sound in sounds" :key="sound.id" class="col-span-2" :column="true" />
+        <SoundCard v-for="sound in sounds" :key="sound.id" :sounds="sound" class="col-span-2" :column="true" />
       </div>
     </div>
   </div>

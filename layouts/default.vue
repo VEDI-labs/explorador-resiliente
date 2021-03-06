@@ -51,7 +51,41 @@
           </NuxtLink>
         </div>
         <div class="mt-8 px-4">
-          <div class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
+          <div v-if="user && user.uid !== null && user.profile" class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
+            <img
+              class="rounded-full border-2 border-white shadow-md mb-2"
+              :src="user.profile.picture"
+              width="25%"
+              height="25%"
+              alt="user"
+            >
+            <p class="font-bold mb-1">
+              {{ user.profile.name }}
+            </p>
+            <div v-show="user.profile.country" class="flex items-center justify-center mb-8">
+              <img
+                :src="`https://www.countryflags.io/${user.profile.country.code}/flat/32.png`"
+                height="32"
+                width="32"
+              >
+              <p class="text-sm mb-0 ml-2">
+                {{ user.profile.country.name }}
+              </p>
+            </div>
+            <button
+              class="mb-2"
+              @click="goToProfile"
+            >
+              Ver perfil
+            </button>
+            <button
+              class="mini"
+              @click="signOut"
+            >
+              Cerrar sesión
+            </button>
+          </div>
+          <div v-else class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
             <IconUser width="50%" height="50%" />
             <p class="text-center">
               Registrate para obtener más beneficios
@@ -96,6 +130,8 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from 'vuex'
+
 import Logo from '~/components/Logo'
 import IconCompass from '~/components/icons/IconCompass'
 import IconRadio from '~/components/icons/IconRadio'
@@ -120,6 +156,14 @@ export default {
     return {
       stations: []
     }
+  },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'isAuthenticated'
+    }),
+    ...mapState({
+      user: 'user'
+    })
   },
   async mounted () {
     this.stations = await this.loadData()
@@ -149,6 +193,12 @@ export default {
     },
     signUp () {
       this.$router.push('/sign-up')
+    },
+    goToProfile () {
+      this.$router.push('/profile')
+    },
+    async signOut () {
+      await this.$fire.auth.signOut()
     }
   }
 }

@@ -22,17 +22,22 @@
       }"
     >
       <h6 class="mb-1">
-        Colobrí en la mañana
+        {{ sounds.name }}
       </h6>
-      <a href="#">Marcos Sierra</a>
+      <a href="#">{{ sounds.authorName }}</a>
       <div class="flex mt-4">
         <div class="flex items-center">
           <IconTime height="16" width="16" color="#6B7779" />
-          <span>2:32</span>
+          <span>{{ Math.floor(sounds.length / 60000) }}:{{ ((sounds.length % 60000) / 1000).toFixed(0) }}</span>
         </div>
         <div class="flex items-center ml-4">
           <IconMicrophone height="16" width="16" color="#6B7779" />
-          <span>Aves</span>
+          <span
+            v-for="tag in sounds.tags"
+            :key="tag.id"
+          >
+            {{ tag }}
+          </span>
         </div>
       </div>
     </section>
@@ -51,6 +56,12 @@ export default {
     column: {
       type: Boolean,
       default: false
+    },
+    sounds: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   }
 }
