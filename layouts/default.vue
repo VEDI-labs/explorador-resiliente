@@ -51,7 +51,7 @@
           </NuxtLink>
         </div>
         <div class="mt-8 px-4">
-          <div v-if="user && user.profile" class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
+          <div v-if="user && user.uid !== null && user.profile" class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
             <img
               class="rounded-full border-2 border-white shadow-md mb-2"
               :src="user.profile.picture"

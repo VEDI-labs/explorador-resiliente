@@ -34,7 +34,18 @@ export const mutations = {
         uid: null,
         email: '',
         emailVerified: false,
-        profile: {}
+        profile: {
+          bio: '',
+          communities: [],
+          country: {
+            code: '',
+            name: ''
+          },
+          isArtist: '',
+          name: '',
+          picture: '',
+          resilientObjects: []
+        }
       }
     }
   }

@@ -69,7 +69,7 @@
             <label
               :class="{ error: errors.length > 0 }"
             >País</label>
-            <select class="form-select" v-model="country" name="country">
+            <select v-model="country" class="form-select" name="country">
               <option>Guatemala</option>
               <option>México</option>
             </select>
@@ -178,7 +178,9 @@
       </validation-observer>
       <div class="Card-actions">
         <p>¿Ya tienes una cuenta?</p>
-        <a href="#">Iniciar sesión</a>
+        <nuxt-link to="/sign-in">
+          Iniciar sesión
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -235,12 +237,8 @@ export default {
       let info = await fetch(urlCountry).then(res => res.json()).then(function (vari) {
         return vari[0].alpha2Code
       })
-      console.log(info)
       info = await fetch(urlCountry).then(res => res.json())
       this.countryCode = info
-    },
-    prueba () {
-
     },
     async signUp () {
       try {
