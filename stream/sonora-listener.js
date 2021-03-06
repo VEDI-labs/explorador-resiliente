@@ -1,22 +1,22 @@
-const ICE_SERVERS = [{ urls: 'stun:stun.l.google.com:19302' }]
+const ICE_SERVERS = [{ urls: 'stun:stun1.l.google.com:19302' }, { urls: 'stun:stun.l.google.com:19302' }]
 
 export class SonoraListener {
-  constructor(ws) {
+  constructor (ws) {
     this.connection = ws
     this.onMessage = null
     this.id = null
+    this.peers = {}
   }
 
-  listen(id, callback) {
+  listen (id, callback) {
     this.id = id
 
     const handleMessage = (event) => {
       const data = JSON.parse(event.data)
       switch (data.event) {
         case 'add_peer':
-          this._createOffer(data)
+          this._createOffer(data, callback)
           break
-        
         case 'session_description':
           this._setRemoteDescription(data)
           break
@@ -24,16 +24,12 @@ export class SonoraListener {
         case 'ice_candidate':
           this._addIceCandidate(data)
           break
-        case 'joined':
-          this._addTracks(data, callback)
-          break
 
         case 'remove_peer':
           this._removePeer(data)
           break
       }
     }
-    
     const handleError = (event) => {
       console.error(event)
       this.connection.removeEventListener('error', handleError)
@@ -41,12 +37,12 @@ export class SonoraListener {
 
     this.connection.onmessage = handleMessage
     this.connection.onerror = handleError
-    this.executeAction('listenradio', {
+    this._executeAction('listenradio', {
       id
     })
   }
 
-  async _addIceCandidate(data) {
+  async _addIceCandidate (data) {
     const peerId = data.peerId
     const peer = this.peers[peerId]
     const candidate = data.iceCandidate
@@ -59,7 +55,7 @@ export class SonoraListener {
     }
   }
 
-  async _createOffer(data) {
+  async _createOffer (data, callback) {
     console.log('adding peer', data)
 
     const peerId = data.peerId
@@ -73,13 +69,12 @@ export class SonoraListener {
     const pc = new RTCPeerConnection({
       iceServers: ICE_SERVERS
     })
-    
     pc.addEventListener('connectionstatechange', (e) => {
       if (pc.connectionState === 'connected') {
         console.log('connected')
-      } else (
+      } else {
         console.log(e)
-      )
+      }
     })
 
     pc.onicecandidate = (event) => {
@@ -90,7 +85,12 @@ export class SonoraListener {
         })
       }
     }
-
+    pc.ontrack = (event) => {
+      console.log('Track added', data)
+      if (callback) {
+        callback(event)
+      }
+    }
     this.peers[peerId] = pc
     const offer = await pc.createOffer({
       offerToReceiveAudio: 1,
@@ -104,12 +104,12 @@ export class SonoraListener {
       peerId,
       sessionDescription: pc.localDescription
     })
-    
   }
 
-  _addTracks(data, callback) {
+  _addTracks (data, callback) {
     const peerId = data.peerId
     const peer = this.peers[peerId]
+    console.log('Track added', data)
 
     peer.onTrackAdded = (event) => {
       if (callback) {
@@ -118,7 +118,7 @@ export class SonoraListener {
     }
   }
 
-  async _setRemoteDescription(data) {
+  async _setRemoteDescription (data) {
     try {
       const peerId = data.peerId
       const peer = this.peers[peerId]
@@ -131,7 +131,7 @@ export class SonoraListener {
     }
   }
 
-  async _removePeer(data) {
+  _removePeer (data) {
     console.log('Signaling server said to remove peer:', data)
     const peerId = data.peerId
     const peer = this.peers[peerId]
@@ -142,18 +142,18 @@ export class SonoraListener {
     }
   }
 
-  _executeAction(action, data) {
+  _executeAction (action, data) {
     this._sendMessage(JSON.stringify({
       action,
       data
     }))
   }
 
-  _sendMessage(data) {
+  _sendMessage (data) {
     this.connection.send(data)
   }
 
-  static connect() {
+  static connect () {
     const ws = new WebSocket(process.env.SIGNAL_SERVER)
     const defer = new Promise((resolve, reject) => {
       const handleOpen = () => {
