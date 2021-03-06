@@ -38,6 +38,29 @@
           </validation-provider>
           <validation-provider
             v-slot="{ errors }"
+            name="bio"
+            rules=""
+            tag="div"
+            vid="bio"
+          >
+            <label
+              :class="{ error: errors.length > 0 }"
+            >Biografia</label>
+            <textarea
+              v-model="bio"
+              class="form-input"
+              name="bio"
+              rows="6"
+              placeholder="Cuentanos un poco sobre tí"
+              :class="{ error: errors.length > 0 }"
+              :disabled="uiState === UI_STATES.LOADING"
+            />
+            <span
+              :class="{ error: errors.length > 0 }"
+            >{{ errors.join(',') }}</span>
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
             name="country"
             rules=""
             tag="div"
@@ -153,6 +176,7 @@
           </button>
         </form>
       </validation-observer>
+      <button v-on:click="prueba">olis</button>
       <div class="Card-actions">
         <p>¿Ya tienes una cuenta?</p>
         <a href="#">Iniciar sesión</a>
@@ -183,8 +207,10 @@ export default {
       email: '',
       name: '',
       country: '',
+      countryCode: '',
       password: '',
       passwordConfirmation: '',
+      bio: '',
       uiState: UI_STATES.BLANK,
       UI_STATES
     }
@@ -195,6 +221,28 @@ export default {
     }
   },
   methods: {
+    splitName (varName) {
+      const resultName = varName.split(' ', 2)
+      let insertName
+      if (resultName.length === 2) {
+        insertName = resultName[0] + '+' + resultName[1]
+      } else {
+        insertName = varName
+      }
+      return 'https://ui-avatars.com/api/?name=' + insertName + '&background=0D8ABC&color=fff'
+    },
+    async getCountryCode () {
+      const urlCountry = 'https://restcountries.eu/rest/v2/name/' + this.country + '?fullText=true'
+      let info = await fetch(urlCountry).then(res => res.json()).then(function (vari) {
+        return vari[0].alpha2Code
+      })
+      console.log(info)
+      info = await fetch(urlCountry).then(res => res.json())
+      this.countryCode = info
+    },
+    prueba () {
+
+    },
     async signUp () {
       try {
         this.uiState = UI_STATES.LOADING
@@ -202,9 +250,20 @@ export default {
           this.email,
           this.password
         )
+        const urlCountry = 'https://restcountries.eu/rest/v2/name/' + this.country + '?fullText=true'
         await this.$fire.firestore.collection('profiles').doc(newuser.user.uid).set({
           name: this.name,
-          country: this.country
+          bio: this.bio,
+          picture: this.splitName(this.name),
+          isArtist: true,
+          country: {
+            name: this.country,
+            code: await fetch(urlCountry).then(res => res.json()).then(function (vari) {
+              return vari[0].alpha2Code
+            })
+          },
+          communities: [],
+          resilientObjects: []
         })
         this.uiState = UI_STATES.IDEAL
         this.$router.push('/')
