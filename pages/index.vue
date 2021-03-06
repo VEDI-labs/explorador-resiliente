@@ -115,6 +115,11 @@ export default {
       sounds: [],
       url: 'https://images.unsplash.com/photo-1518105570919-e342af1a8275?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1353&q=80'
     }
+  },
+  head () {
+    return {
+      title: 'Explorar | Explorador Resiliente'
+    }
   }
 }
 

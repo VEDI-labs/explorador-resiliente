@@ -1,25 +1,25 @@
 <template>
-  <div class="flex flex-1 w-full my-4 justify-between">
-    <div class="flex items-center justify-center content-center">
-      <p class="mx-5 font-bold pb-0">
-        1
+  <div class="flex w-full my-4 justify-between items-start text-left">
+    <div class="flex items-center">
+      <p class="mx-2 font-bold mb-0">
+        {{ index }}
       </p>
-      <img class="mx-5" src="https://ui-avatars.com/api/?name=Renato+Fuentes" width="25" height="25">
-      <p class="mx-5 font-bold pb-0">
-        Colibrí en la mañana
+      <img class="mx-4" src="https://ui-avatars.com/api/?name=Renato+Fuentes" width="32" height="32">
+      <p class="mx-4 font-bold mb-0">
+        {{ sound.name }}
       </p>
-      <p class="mx-5 text-gray-500 pb-0">
-        {{ name }}
+      <p class="mx-4 text-gray-500 mb-0">
+        {{ sound.author }}
       </p>
     </div>
-    <div class="flex">
+    <div class="flex items-center">
       <IconTime width="20" height="20" color="#081C1F" />
-      <p class="mx-5 pb-0">
-        00:00
+      <p class="ml-2 mr-8 mb-0">
+        {{ duration }}
       </p>
       <IconMicrophone width="20" height="20" color="#081C1F" />
-      <p class="mx-5 pb-0">
-        Aves
+      <p class="ml-2 mr-0 mb-0">
+        {{ sound.tags.join(',') }}
       </p>
     </div>
   </div>
@@ -34,9 +34,33 @@ export default {
     IconMicrophone
   },
   props: {
-    name: {
-      type: String,
-      default: ''
+    sound: {
+      type: Object,
+      default () {
+        return {
+          name: '',
+          author: '',
+          length: 0,
+          tags: []
+        }
+      }
+    },
+    index: {
+      type: Number,
+      default: 0
+    }
+  },
+  computed: {
+    duration () {
+      const div1 = this.sound.length / 3600
+      const coe1 = this.sound.length % 3600
+      const hours = Math.floor(div1)
+      const div2 = coe1 / 60
+      const coe2 = coe1 % 60
+      const mins = Math.floor(div2)
+      const seg = Math.floor(coe2)
+
+      return `${hours}:${mins}:${seg}`
     }
   }
 }

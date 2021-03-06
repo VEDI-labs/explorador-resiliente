@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -18,30 +18,13 @@ export default {
     ]
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    '@tailwindcss/aspect-ratio'
-  ],
-
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    {
-      src: '~/plugins/vue-slider.js',
-      ssr: false
-    },
     '~/plugins/vee-validate.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
-    // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss'
-  ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -54,9 +37,6 @@ export default {
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-    transpile: ['vee-validate/dist/rules']
-  },
 
   // Firebase module configuration
   firebase: {
@@ -83,11 +63,4 @@ export default {
       firestore: true
     }
   },
-
-  tailwindcss: {
-    configPath: '~/tailwind.config.js',
-    cssPath: '~/assets/css/tailwind.css',
-    purgeCSSInDev: true,
-    exposeConfig: true
-  }
 }

@@ -51,7 +51,41 @@
           </NuxtLink>
         </div>
         <div class="mt-8 px-4">
-          <div class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
+          <div v-if="user && user.uid !== null && user.profile" class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
+            <img
+              class="rounded-full border-2 border-white shadow-md mb-2"
+              :src="user.profile.picture"
+              width="25%"
+              height="25%"
+              alt="user"
+            >
+            <p class="font-bold mb-1">
+              {{ user.profile.name }}
+            </p>
+            <div v-show="user.profile.country" class="flex items-center justify-center mb-8">
+              <img
+                :src="`https://www.countryflags.io/${user.profile.country.code}/flat/32.png`"
+                height="32"
+                width="32"
+              >
+              <p class="text-sm mb-0 ml-2">
+                {{ user.profile.country.name }}
+              </p>
+            </div>
+            <button
+              class="mb-2"
+              @click="goToProfile"
+            >
+              Ver perfil
+            </button>
+            <button
+              class="mini"
+              @click="signOut"
+            >
+              Cerrar sesión
+            </button>
+          </div>
+          <div v-else class="px-4 py-8 rounded-xl shadow-2xl flex flex-col justify-center items-center bg-white">
             <IconUser width="50%" height="50%" />
             <p class="text-center">
               Registrate para obtener más beneficios
@@ -72,41 +106,11 @@
         <section class="similar-stations">
           <h5>Estaciones</h5>
           <section>
-            <p class="uppercase text-sm text-gray-500">
-              Objetos resilientes
-            </p>
-            <div v-if="resilientObjects.length > 0">
-              <RadioCard
-                v-for="(resilientObject, index) of resilientObjects"
-                :key="index"
-                :item="{
-                  ...resilientObject,
-                  type: 'resilient-object'
-                }"
-              />
-            </div>
-            <div
-              v-else
-              class="flex flex-col items-center my-2"
-            >
-              <IconObject color="#6B7779" height="25%" width="25%" />
-              <p class="text-center text-gray-500">
-                No hay objetos resilientes transmitiendo .
-              </p>
-            </div>
-          </section>
-          <section class="mt-12">
-            <p class="uppercase text-sm text-gray-500">
-              Estaciones resilientes
-            </p>
             <div v-if="stations.length > 0">
               <RadioCard
                 v-for="(station, index) of stations"
                 :key="index"
-                :item="{
-                  ...station,
-                  type: 'station'
-                }"
+                :item="station"
               />
             </div>
             <div
@@ -126,6 +130,8 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from 'vuex'
+
 import Logo from '~/components/Logo'
 import IconCompass from '~/components/icons/IconCompass'
 import IconRadio from '~/components/icons/IconRadio'
@@ -148,18 +154,24 @@ export default {
   },
   data () {
     return {
-      resilientObjects: [],
       stations: []
     }
   },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'isAuthenticated'
+    }),
+    ...mapState({
+      user: 'user'
+    })
+  },
   async mounted () {
-    this.resilientObjects = await this.loadData('resilient-objects')
-    this.stations = await this.loadData('stations')
+    this.stations = await this.loadData()
   },
   methods: {
-    async loadData (collection) {
+    async loadData () {
       const items = []
-      const { docs } = await this.$fire.firestore.collection(collection).get()
+      const { docs } = await this.$fire.firestore.collection('stations').get()
       for (const doc of docs) {
         const data = doc.data()
         items.push({
@@ -170,10 +182,23 @@ export default {
           ref: doc.ref
         })
       }
+      items.sort((a, b) => {
+        if (a.status === 'online' && b.status === 'offline') {
+          return -1
+        } else {
+          return 1
+        }
+      })
       return items
     },
     signUp () {
       this.$router.push('/sign-up')
+    },
+    goToProfile () {
+      this.$router.push('/profile')
+    },
+    async signOut () {
+      await this.$fire.auth.signOut()
     }
   }
 }

@@ -11,25 +11,50 @@
         <h4 class="station-name">
           {{ name }}
         </h4>
-        <div v-show="status === 'online'" class="current-device">
+        <div v-if="status === 'online'" class="current-device bg-red-900">
           <IconObject height="24" width="24" color="#ffffff" /><span>En vivo</span>
+        </div>
+        <div v-else-if="status === 'offline'" class="current-device bg-gray-500">
+          <IconObject height="24" width="24" color="#ffffff" /><span>Offline</span>
         </div>
       </section>
       <section class="controls">
         <div class="playback-controls">
-          <button class="rounded ghost">
-            <IconPrevious width="24" height="24" color="#0BA882" />
-          </button>
-          <button class="rounded play">
-            <IconPlay width="32" height="32" color="#ffffff" />
-          </button>
-          <button class="rounded ghost">
-            <IconNext width="24" height="24" color="#0BA882" />
+          <button
+            class="rounded play"
+            :disabled="status === 'offline'"
+            @click="togglePlayer"
+          >
+            <IconPlay v-if="isPaused" width="32" height="32" color="#ffffff" />
+            <IconPause v-else width="32" height="32" color="#ffffff" />
           </button>
         </div>
-        <div>
+        <div
+          class="volume-control"
+          :style="{
+            opacity: status === 'offline' ? 0.5 : 1
+          }"
+        >
           <IconSpeaker width="32" height="32" color="#0BA882" />
+          <div class="ml-8 flex-1">
+            <client-only placeholder="Loading...">
+              <vue-slider
+                v-model="volume"
+                :disabled="status === 'offline'"
+                :dot-style="{
+                  borderColor: '#0BA882'
+                }"
+                :process-style="{
+                  backgroundColor: '#0BA882'
+                }"
+                :rail-style="{
+                  backgroundColor: '#E1E5E6'
+                }"
+              />
+            </client-only>
+          </div>
         </div>
+        <audio ref="audio" :volume="volume / 100" loop />
       </section>
     </section>
   </div>
@@ -39,38 +64,57 @@
 import IconObject from '~/components/icons/IconObject'
 import IconSpeaker from '~/components/icons/IconSpeaker'
 import IconPlay from '~/components/icons/IconPlay'
-import IconPrevious from '~/components/icons/IconPrevious'
-import IconNext from '~/components/icons/IconNext'
+import IconPause from '~/components/icons/IconPause'
 
 export default {
   components: {
     IconObject,
     IconSpeaker,
     IconPlay,
-    IconPrevious,
-    IconNext
+    IconPause
   },
   data () {
     return {
       name: '',
       picture: '',
       id: null,
-      type: '',
-      status: 'offline'
+      status: 'offline',
+      isPaused: true,
+      volume: 80
+    }
+  },
+  head () {
+    return {
+      title: `${this.name} | Explorador Resiliente`
+    }
+  },
+  watch: {
+    volume () {
+      this.$refs.audio.volume = this.volume / 100
     }
   },
   async mounted () {
-    const collection = this.$route.query.type === 'resilient-object' ? 'resilient-objects' : 'stations'
-    const record = await this.$fire.firestore.collection(collection).doc(this.$route.params.slug).get()
+    const record = await this.$fire.firestore.collection('stations').doc(this.$route.params.slug).get()
     if (record.exists) {
       const data = record.data()
       this.id = record.id
       this.name = data.name
       this.picture = data.picture
       this.status = data.status
-      this.type = this.$route.query.type
     } else {
       this.$router.push('/404')
+    }
+  },
+  methods: {
+    togglePlayer () {
+      this.$refs.audio.volume = this.volume / 100
+      if (this.isPaused) {
+        this.$refs.audio.play()
+        this.isPaused = false
+      } else {
+        this.$refs.audio.pause()
+        this.isPaused = true
+      }
     }
   }
 }
@@ -97,7 +141,9 @@ export default {
     @apply my-4;
   }
   .controls {
-    @apply self-center my-2;
+    @apply my-2;
+    @apply self-center;
+    @apply w-2/5;
   }
   .similar-stations {
     @apply flex flex-col;
@@ -107,7 +153,6 @@ export default {
   }
   .current-device {
     @apply flex;
-    @apply bg-red-900;
     @apply px-4 py-2;
     @apply rounded-full;
 
@@ -117,7 +162,9 @@ export default {
     }
   }
   .playback-controls {
-    @apply flex items-center;
+    @apply flex;
+    @apply items-center;
+    @apply justify-center;
     @apply mb-12;
 
     & .play {
@@ -125,5 +172,10 @@ export default {
       height: 64px;
       width: 64px;
     }
+  }
+  .volume-control {
+    @apply flex;
+    @apply items-center;
+    @apply w-full;
   }
 </style>

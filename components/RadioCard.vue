@@ -1,6 +1,9 @@
 <template>
   <article
     class="radio-station"
+    :style="{
+      opacity: item.status === 'offline' ? 0.5 : 1
+    }"
     @click.stop="goToPlayer()"
   >
     <div class="figure-container w-1/4">
@@ -8,14 +11,21 @@
         <img :src="item.picture" alt="Cover">
       </figure>
     </div>
-    <section>
+    <section class="flex flex-1 flex-col">
       <h6>{{ item.name }}</h6>
       <div
-        v-show="item.status === 'online'"
+        v-if="item.status === 'online'"
         class="radio-station-indicator"
       >
-        <IconObject height="20" width="20" color="white" />
-        <span>En vivo</span>
+        <IconObject height="20" width="20" color="#EE4E3B" />
+        <span class="text-red-500">En vivo</span>
+      </div>
+      <div
+        v-else-if="item.status === 'offline'"
+        class="radio-station-indicator"
+      >
+        <IconObject height="20" width="20" color="#6B7779" />
+        <span class="text-gray-500">Offline</span>
       </div>
     </section>
   </article>
@@ -45,8 +55,7 @@ export default {
     goToPlayer () {
       this.$router.push({
         name: 'player-slug',
-        params: { slug: this.item.id },
-        query: { type: this.item.type }
+        params: { slug: this.item.id }
       })
     }
   }
@@ -72,6 +81,8 @@ export default {
 }
 
 .radio-station-indicator {
-  @apply flex items-center justify-center bg-red-900 rounded-full text-white px-2 py-1 uppercase text-xs;
+  @apply flex;
+  @apply items-center;
+  @apply text-xs
 }
 </style>
