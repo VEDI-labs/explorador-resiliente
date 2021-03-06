@@ -6,7 +6,7 @@
         <ArtistCard
           v-for="artist in artists"
           :key="artist.id"
-          :full-name="artist.name"
+          :profile="artist"
           class="col-span-2"
         />
       </div>

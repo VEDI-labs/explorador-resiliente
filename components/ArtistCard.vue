@@ -17,7 +17,7 @@
         width="32"
       >
       <p class="text-sm mb-0 ml-2">
-        {{ profile.country.name}}
+        {{ profile.country.name }}
       </p>
     </div>
   </article>

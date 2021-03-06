@@ -22,13 +22,13 @@
       }"
     >
       <h6 class="mb-1">
-        {{sounds.name}}
+        {{ sounds.name }}
       </h6>
       <a href="#">{{ sounds.authorName }}</a>
       <div class="flex mt-4">
         <div class="flex items-center">
           <IconTime height="16" width="16" color="#6B7779" />
-          <span> `{{Math.floor(sounds.length / 60000)}}:{{((sounds.length % 60000) / 1000).toFixed(0)}}`</span>
+          <span>{{ Math.floor(sounds.length / 60000) }}:{{ ((sounds.length % 60000) / 1000).toFixed(0) }}</span>
         </div>
         <div class="flex items-center ml-4">
           <IconMicrophone height="16" width="16" color="#6B7779" />
@@ -36,7 +36,8 @@
             v-for="tag in sounds.tags"
             :key="tag.id"
           >
-          {{ tag }}</span>
+            {{ tag }}
+          </span>
         </div>
       </div>
     </section>
@@ -57,9 +58,9 @@ export default {
       default: false
     },
     sounds: {
-      type: Array,
+      type: Object,
       default () {
-        return []
+        return {}
       }
     }
   }

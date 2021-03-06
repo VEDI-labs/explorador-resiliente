@@ -41,6 +41,29 @@ export default {
     CommunityCard,
     SoundCard
   },
+  data () {
+    return {
+      community: {
+        featured: false,
+        name: '',
+        people: [],
+        sounds: [],
+        picture: '',
+        country: {
+          code: '',
+          name: ''
+        }
+      },
+      profiles: [],
+      sounds: [],
+      url: 'https://images.unsplash.com/photo-1518105570919-e342af1a8275?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1353&q=80'
+    }
+  },
+  head () {
+    return {
+      title: 'Explorar | Explorador Resiliente'
+    }
+  },
   async mounted () {
     await this.load_profiles()
     await this.load_communities()
@@ -81,7 +104,6 @@ export default {
       const DOCS = RESULT.docs
       for (const DOC of DOCS) {
         const ARTIST = this.profiles.find((profile) => { return profile.id === DOC.data().author })
-        console.log('prueba')
         const RECORD = {
           author: DOC.data().author,
           file: DOC.data().file,
@@ -94,31 +116,6 @@ export default {
         }
         this.sounds.push(RECORD)
       }
-      console.log(this.sounds[0])
-      console.log(this.sounds[1])
-    }
-  },
-  data () {
-    return {
-      community: {
-        featured: false,
-        name: '',
-        people: [],
-        sounds: [],
-        picture: '',
-        country: {
-          code: '',
-          name: ''
-        }
-      },
-      profiles: [],
-      sounds: [],
-      url: 'https://images.unsplash.com/photo-1518105570919-e342af1a8275?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1353&q=80'
-    }
-  },
-  head () {
-    return {
-      title: 'Explorar | Explorador Resiliente'
     }
   }
 }
