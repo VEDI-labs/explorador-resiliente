@@ -2,42 +2,46 @@
   <article
     class="Community"
     :style="{
-      backgroundImage: `url(${url})`
+      backgroundImage: `url(${ community.picture })`
     }"
   >
     <div class="Community-container">
       <div class="Community-content">
-        <span v-show="featured" class="bg-accent-500 px-4 py-1 text-sm rounded-md text-white">
+        <span v-show="community.featured" class="bg-accent-500 px-4 py-1 text-sm rounded-md text-white">
           Destacada del mes
         </span>
         <h3
           class="mb-0 text-white"
           :class="{
-            'text-2xl': !featured
+            'text-2xl': !community.featured
           }"
         >
-          VEDI Quetzaltenango
+          {{ community.name }}
         </h3>
-        <div v-show="featured" class="flex items-center justify-center mb-2">
+        <div v-show="community.featured" class="flex items-center justify-center mb-2">
           <img
-            src="https://www.countryflags.io/gt/flat/32.png"
+            :src="`https://www.countryflags.io/${community.country.code}/flat/32.png`"
             height="32"
             width="32"
           >
           <p class="text-white text-sm mb-0 ml-2">
-            Guatemala
+            {{ community.country.name }}
           </p>
         </div>
         <div class="flex justify-center items-center mt-2">
           <div class="flex">
-            <img class="rounded-full border-2 border-white shadow-md" src="https://ui-avatars.com/api/?name=User" width="32" height="32" alt="">
-            <img class="rounded-full border-2 border-white shadow-md -ml-4" src="https://ui-avatars.com/api/?name=User" width="32" height="32" alt="">
-            <img class="rounded-full border-2 border-white shadow-md -ml-4" src="https://ui-avatars.com/api/?name=User" width="32" height="32" alt="">
-            <img class="rounded-full border-2 border-white shadow-md -ml-4" src="https://ui-avatars.com/api/?name=User" width="32" height="32" alt="">
-            <img class="rounded-full border-2 border-white shadow-md -ml-4" src="https://ui-avatars.com/api/?name=User" width="32" height="32" alt="">
+            <img
+              v-for="profile in profiles"
+              :key="profile.id"
+              class="rounded-full border-2 border-white shadow-md"
+              :src="profile.picture"
+              width="32"
+              height="32"
+              alt=""
+            >
           </div>
           <p class="ml-2 mb-0 text-white">
-            +12 personas
+            +{{ community.people.length }} personas
           </p>
         </div>
       </div>
@@ -47,14 +51,27 @@
 <script>
 export default {
   props: {
-    featured: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data () {
-    return {
-      url: 'https://images.unsplash.com/photo-1518105570919-e342af1a8275?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1353&q=80'
+    community: {
+      type: Object,
+      default () {
+        return {
+          featured: false,
+          name: '',
+          people: [],
+          sounds: [],
+          picture: '',
+          country: {
+            code: '',
+            name: ''
+          }
+        }
+      }
+    },
+    profiles: {
+      type: Array,
+      default () {
+        return []
+      }
     }
   }
 }
